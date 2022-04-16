@@ -12,8 +12,50 @@ def get_citis(regionCode):
 
 
 	return json.loads(loging.text)
-	# with open("1.json", "w",encoding='utf-8') as file:
-	# 	json.dump(json.loads(loging.text), file, indent=4, ensure_ascii=False)
+
+def get_area(regionCode):
+	url = start_url+'/areas?actual=true&itemsPerPage=100&page=1&regionCode='+regionCode+'&searchString='
+
+	s = requests.Session()
+	loging = s.get(url)
+	return json.loads(loging.text)
+
+def get_vilage(regionCode,areaCode):
+	url = start_url+'/settlements?actual=true&areaCode='+areaCode+'&itemsPerPage=100&page=1&regionCode='+regionCode+'&searchString='
+
+	s = requests.Session()
+	loging = s.get(url)
+
+
+	return json.loads(loging.text)
+
+
+def get_vilage_streat(regionCode,areaCode,settlementCode):
+	print(regionCode)
+	print(areaCode)
+	print(settlementCode)
+	url = start_url+'/streets?actual=true&areaCode='+areaCode+'&itemsPerPage=100&page=1&regionCode='+regionCode+'&searchString=&settlementCode='+settlementCode
+
+	s = requests.Session()
+	loging = s.get(url)
+
+
+	return json.loads(loging.text)
+
+
+def get_vilage_streat_home(regionCode,areaCode,settlementCode,streetCode):
+	print(regionCode)
+	print(areaCode)
+	print(settlementCode)
+	url = start_url+'/numbers?actual=true&areaCode='+areaCode+'&itemsPerPage=100&page=1&regionCode='+regionCode+'&searchString=&settlementCode='+settlementCode+"&streetCode="+streetCode
+
+	s = requests.Session()
+	loging = s.get(url)
+
+
+	return json.loads(loging.text)
+
+#https://dom.gosuslugi.ru/nsi/api/rest/services/nsi/fias/v4/settlements?actual=true&areaCode=71bdc088-53f4-40a7-92dc-004499965dfa&itemsPerPage=10&page=1&regionCode=db9c4f8b-b706-40e2-b2b4-d31b98dcd3d1&searchString=
 
 
 def get_streat(regionCode,cityCode):
@@ -47,25 +89,57 @@ def get_compuni(regionCode,cityCode,streetCode,homeCode):
 	
 	loging = s.post(url,json=datas)
 
-	
-
-	with open("4.json", "w",encoding='utf-8') as file:
-		json.dump(json.loads(loging.text), file, indent=4, ensure_ascii=False)
-
-
 	if json.loads(loging.text)["organizationSummaryWithNsiList"] == 0:
 		return "нет компаний"
 	else:
-
-		print(len(json.loads(loging.text)["organizationSummaryWithNsiList"]))
-
 		text = 'спискок организаций:'
 		g = 0
 		for i in json.loads(loging.text)["organizationSummaryWithNsiList"]:
 			g = g +1
-			text = text + "\n["+str(g)+"]" +i["shortName"]+"\n\n"
+			text = text + "\n["+str(g)+"]" +i["shortName"]+"\n" 
+			if i["phone"] != None:
+				text = text +"\n" + str(i["phone"])+"\n"
+			
+			if i["url"] != None:
+				text = text +"\n" + str(i["url"])+"\n"
+			else:
+				text = text + "\n"
 		return text
 
-	return
 
+def get_compuni_vilage(regionCode,areaCode,settlementCode,streetCode ,houseCode):
+	url = 'https://dom.gosuslugi.ru/ppa/api/rest/services/ppa/public/organizations/searchByTerritory?pageIndex=1&elementsPerPage=10'
+
+	s = requests.Session()
+
+	with open('6.json', 'r',encoding='utf-8') as fp:
+		datas = json.load(fp)
+
+	datas["regionCode"]=regionCode
+	datas["areaCode"]=areaCode
+	datas["settlementCode"]=settlementCode
+	datas["streetCode"]=streetCode
+	datas["houseCode"]=houseCode
+
+	
+	loging = s.post(url,json=datas)
+
+	if json.loads(loging.text)["organizationSummaryWithNsiList"] == 0:
+		return "нет компаний"
+	else:
+		text = 'спискок организаций:'
+		g = 0
+		for i in json.loads(loging.text)["organizationSummaryWithNsiList"]:
+			g = g +1
+			text = text + "\n["+str(g)+"]" +i["shortName"]+"\n"
+			if i["phone"] != None:
+				text = text +"\n" + str(i["phone"])+"\n"
+			
+			if i["url"] != None:
+				text = text +"\n" + str(i["url"])+"\n"
+			else:
+				text = text + "\n"
+
+
+		return text
 
