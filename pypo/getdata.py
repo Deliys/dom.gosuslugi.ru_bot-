@@ -4,6 +4,13 @@ import json
 #ссыль куда мы гидаем запросы
 start_url = 'https://dom.gosuslugi.ru/nsi/api/rest/services/nsi/fias/v4'
 
+
+
+""" функции ниже отправляют get запросы с помощью того что подставляют коды 
+в изначальную ссылку . С каждым выбором мы добавляем новые данные в ссылку и 
+сохроняем пребедущие
+"""
+
 def get_citis(regionCode):
 	url = start_url+'/cities?actual=true&itemsPerPage=100&page=1&regionCode='+regionCode+'&searchString='
 
@@ -74,6 +81,13 @@ def get_home(regionCode,cityCode,streetCode):
 	loging = s.get(url)
 
 	return json.loads(loging.text)
+
+
+"""
+ниже функции отправляют пост запросы на сйт и данные в формате json в которые подставляются значения 
+ранее полученые  дынные из прошлых запросов 
+"""
+
 def get_compuni(regionCode,cityCode,streetCode,homeCode):
 	url = 'https://dom.gosuslugi.ru/ppa/api/rest/services/ppa/public/organizations/searchByTerritory?pageIndex=1&elementsPerPage=10'
 
