@@ -24,16 +24,6 @@ with open('regions.json', 'r',encoding='utf-8') as fp:
 item_start =types.InlineKeyboardButton("в начало",callback_data='start_t')
 
 
-"""
-функции с приставкой _list отвечают за вытаскивание из полученых данных
-названия например городов и строки-кода для следущего запроса
-"""
-
-
-
-
-
-
 
 
 # Функция, обрабатывающая команду /start
@@ -1062,9 +1052,6 @@ def callback_worker(call):
 				database_user[str(call.message.chat.id)]["street"],\
 				database_user[str(call.message.chat.id)]["home"],\
 				)
-
-
-
 
 			bot.send_message(str(call.message.chat.id),text)	
 
