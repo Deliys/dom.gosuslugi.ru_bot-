@@ -5,7 +5,7 @@ from telebot import types
 import math
 
 import pypo.getdata as gd #импорт функция из файла getdata в pypo 
-bot = telebot.TeleBot('5326982685:AAGNfTsKb0T7nqIFH_B2MusSV2qQM4cZTzw')
+bot = telebot.TeleBot('5225585818:AAGSLsqeM02iZ5JwvEuocZmK9X4P2vlP6eE')
 
 
 with open('database_user.json', 'r',encoding='utf-8') as fp:
@@ -190,7 +190,8 @@ def handle_text(message):
 	if (int(message.chat.id) in database_user) == False:
 		database_user[int(message.chat.id)]= {
 				"regions_numb":0,#номер страницы 
-				"citi_numb":0
+				"citi_numb":0,
+				"adres":""
 			}
 
 		#print(database_user)
@@ -208,9 +209,9 @@ def handle_text(message):
 			item1=types.InlineKeyboardButton(i[0],callback_data=("regionCode " + i[1]))
 			markup.add(item1)
 
-		item1=types.InlineKeyboardButton("-",callback_data='regions -')
+		item1=types.InlineKeyboardButton("назад",callback_data='regions -')
 		item3=types.InlineKeyboardButton("[0/"+str(int((len(regions)/8)))+"]",callback_data='chet')
-		item2=types.InlineKeyboardButton("+",callback_data='regions +')
+		item2=types.InlineKeyboardButton("далее",callback_data='regions +')
 
 		markup.add(item1,item3,item2)
 		markup.add(item_start)
@@ -243,10 +244,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("regionCode " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='regions -')
+				item1=types.InlineKeyboardButton("назад",callback_data='regions -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["regions_numb"])\
 					+"/"+str(int((len(regions)/8)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='regions +')
+				item2=types.InlineKeyboardButton("далее",callback_data='regions +')
 
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
@@ -267,10 +268,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("regionCode " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='regions -')
+				item1=types.InlineKeyboardButton("назад",callback_data='regions -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["regions_numb"])\
 					+"/"+str(int((len(regions)/8)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='regions +')
+				item2=types.InlineKeyboardButton("далее",callback_data='regions +')
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
 				bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -288,10 +289,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("regionCode " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='regions -')
+				item1=types.InlineKeyboardButton("назад",callback_data='regions -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["regions_numb"])\
 					+"/"+str(int((len(regions)/8)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='regions +')
+				item2=types.InlineKeyboardButton("далее",callback_data='regions +')
 
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
@@ -310,13 +311,13 @@ def callback_worker(call):
 				a=regions_list(regions,database_user[str(call.message.chat.id)]["regions_numb"])
 				for i in a:
 
-					item1=types.InlineKeyboardButton(i[0],callback_data=("regionCode " + i[1]))
+					item1=types.InlineKeyboardButton(i[0],callback_data=("regionCode " + i[1] + " "+i[0]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='regions -')
+				item1=types.InlineKeyboardButton("назад",callback_data='regions -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["regions_numb"])\
 					+"/"+str(int((len(regions)/8)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='regions +')
+				item2=types.InlineKeyboardButton("далее",callback_data='regions +')
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
 				bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -327,6 +328,8 @@ def callback_worker(call):
 
 		if call.data.split()[0] == "regionCode":
 			database_user[str(call.message.chat.id)]["regions"]  = call.data.split()[1]
+			database_user[str(call.message.chat.id)]["adres"]  = call.data.split()[2]
+			print(database_user)
 			markup=types.InlineKeyboardMarkup()
 			item1=types.InlineKeyboardButton("Город",callback_data='citi')
 			item2=types.InlineKeyboardButton("Район",callback_data='area')
@@ -352,10 +355,10 @@ def callback_worker(call):
 
 
 
-			item1=types.InlineKeyboardButton("-",callback_data='area -')
+			item1=types.InlineKeyboardButton("назад",callback_data='area -')
 			item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["area_numb"])\
 				+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-			item2=types.InlineKeyboardButton("+",callback_data='area +')
+			item2=types.InlineKeyboardButton("далее",callback_data='area +')
 			markup.add(item1,item3,item2)
 			markup.add(item_start)
 			bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -378,10 +381,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("areaCode " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='area -')
+				item1=types.InlineKeyboardButton("назад",callback_data='area -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["area_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='area +')
+				item2=types.InlineKeyboardButton("далее",callback_data='area +')
 
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
@@ -404,10 +407,10 @@ def callback_worker(call):
 
 
 
-				item1=types.InlineKeyboardButton("-",callback_data='area -')
+				item1=types.InlineKeyboardButton("назад",callback_data='area -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["area_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='area +')
+				item2=types.InlineKeyboardButton("далее",callback_data='area +')
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
 				bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -428,10 +431,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("areaCode " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='area -')
+				item1=types.InlineKeyboardButton("назад",callback_data='area -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["area_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='area +')
+				item2=types.InlineKeyboardButton("далее",callback_data='area +')
 
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
@@ -457,10 +460,10 @@ def callback_worker(call):
 
 
 
-				item1=types.InlineKeyboardButton("-",callback_data='area -')
+				item1=types.InlineKeyboardButton("назад",callback_data='area -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["area_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='area +')
+				item2=types.InlineKeyboardButton("далее",callback_data='area +')
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
 				bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -485,10 +488,10 @@ def callback_worker(call):
 
 			database_user[str(call.message.chat.id)]["vilage_numb"] = 0
 
-			item1=types.InlineKeyboardButton("-",callback_data='vilage -')
+			item1=types.InlineKeyboardButton("назад",callback_data='vilage -')
 			item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["area_numb"])\
 				+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-			item2=types.InlineKeyboardButton("+",callback_data='vilage +')
+			item2=types.InlineKeyboardButton("далее",callback_data='vilage +')
 			markup.add(item1,item3,item2)
 			markup.add(item_start)
 			bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -506,10 +509,10 @@ def callback_worker(call):
 
 
 
-			item1=types.InlineKeyboardButton("-",callback_data='vilage -')
+			item1=types.InlineKeyboardButton("назад",callback_data='vilage -')
 			item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["vilage_numb"])\
 				+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-			item2=types.InlineKeyboardButton("+",callback_data='vilage +')
+			item2=types.InlineKeyboardButton("далее",callback_data='vilage +')
 			markup.add(item1,item3,item2)
 			markup.add(item_start)
 			bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -532,10 +535,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("vilageCode " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='vilage -')
+				item1=types.InlineKeyboardButton("назад",callback_data='vilage -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["vilage_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='vilage +')
+				item2=types.InlineKeyboardButton("далее",callback_data='vilage +')
 
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
@@ -558,10 +561,10 @@ def callback_worker(call):
 
 
 
-				item1=types.InlineKeyboardButton("-",callback_data='vilage -')
+				item1=types.InlineKeyboardButton("назад",callback_data='vilage -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["vilage_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='vilage +')
+				item2=types.InlineKeyboardButton("далее",callback_data='vilage +')
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
 				bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -582,10 +585,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("vilageCode " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='vilage -')
+				item1=types.InlineKeyboardButton("назад",callback_data='vilage -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["vilage_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='vilage +')
+				item2=types.InlineKeyboardButton("далее",callback_data='vilage +')
 
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
@@ -611,10 +614,10 @@ def callback_worker(call):
 
 
 
-				item1=types.InlineKeyboardButton("-",callback_data='vilage -')
+				item1=types.InlineKeyboardButton("назад",callback_data='vilage -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["vilage_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='vilage +')
+				item2=types.InlineKeyboardButton("далее",callback_data='vilage +')
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
 				bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -640,10 +643,10 @@ def callback_worker(call):
 
 			database_user[str(call.message.chat.id)]["settlement_numb"] = 0
 
-			item1=types.InlineKeyboardButton("-",callback_data='settlement -')
+			item1=types.InlineKeyboardButton("назад",callback_data='settlement -')
 			item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["area_numb"])\
 				+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-			item2=types.InlineKeyboardButton("+",callback_data='settlement +')
+			item2=types.InlineKeyboardButton("далее",callback_data='settlement +')
 			markup.add(item1,item3,item2)
 			markup.add(item_start)
 			bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -661,10 +664,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("settlementCode " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='settlement -')
+				item1=types.InlineKeyboardButton("назад",callback_data='settlement -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["settlement_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='settlement +')
+				item2=types.InlineKeyboardButton("далее",callback_data='settlement +')
 
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
@@ -687,10 +690,10 @@ def callback_worker(call):
 
 
 
-				item1=types.InlineKeyboardButton("-",callback_data='settlement -')
+				item1=types.InlineKeyboardButton("назад",callback_data='settlement -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["settlement_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='settlement +')
+				item2=types.InlineKeyboardButton("далее",callback_data='settlement +')
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
 				bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -711,10 +714,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("settlementCode " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='settlement -')
+				item1=types.InlineKeyboardButton("назад",callback_data='settlement -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["settlement_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='settlement +')
+				item2=types.InlineKeyboardButton("далее",callback_data='settlement +')
 
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
@@ -740,10 +743,10 @@ def callback_worker(call):
 
 
 
-				item1=types.InlineKeyboardButton("-",callback_data='settlement -')
+				item1=types.InlineKeyboardButton("назад",callback_data='settlement -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["settlement_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='settlement +')
+				item2=types.InlineKeyboardButton("далее",callback_data='settlement +')
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
 				bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -773,10 +776,10 @@ def callback_worker(call):
 
 			database_user[str(call.message.chat.id)]["streetCode_numb"] = 0
 
-			item1=types.InlineKeyboardButton("-",callback_data='settlement -')
+			item1=types.InlineKeyboardButton("назад",callback_data='settlement -')
 			item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["streetCode_numb"])\
 				+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-			item2=types.InlineKeyboardButton("+",callback_data='settlement +')
+			item2=types.InlineKeyboardButton("далее",callback_data='settlement +')
 			markup.add(item1,item3,item2)
 			markup.add(item_start)
 			bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -819,10 +822,10 @@ def callback_worker(call):
 
 
 
-			item1=types.InlineKeyboardButton("-",callback_data='citi -')
+			item1=types.InlineKeyboardButton("назад",callback_data='citi -')
 			item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["citi_numb"])\
 				+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-			item2=types.InlineKeyboardButton("+",callback_data='citi +')
+			item2=types.InlineKeyboardButton("далее",callback_data='citi +')
 			markup.add(item1,item3,item2)
 			markup.add(item_start)
 			bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -845,10 +848,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("citiCode " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='citi -')
+				item1=types.InlineKeyboardButton("назад",callback_data='citi -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["citi_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='citi +')
+				item2=types.InlineKeyboardButton("далее",callback_data='citi +')
 
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
@@ -871,10 +874,10 @@ def callback_worker(call):
 
 
 
-				item1=types.InlineKeyboardButton("-",callback_data='citi -')
+				item1=types.InlineKeyboardButton("назад",callback_data='citi -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["citi_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='citi +')
+				item2=types.InlineKeyboardButton("далее",callback_data='citi +')
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
 				bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -895,10 +898,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("citiCode " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='citi -')
+				item1=types.InlineKeyboardButton("назад",callback_data='citi -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["citi_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='citi +')
+				item2=types.InlineKeyboardButton("далее",callback_data='citi +')
 
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
@@ -924,10 +927,10 @@ def callback_worker(call):
 
 
 
-				item1=types.InlineKeyboardButton("-",callback_data='citi -')
+				item1=types.InlineKeyboardButton("назад",callback_data='citi -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["citi_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='citi +')
+				item2=types.InlineKeyboardButton("далее",callback_data='citi +')
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
 				bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -950,10 +953,10 @@ def callback_worker(call):
 
 			database_user[str(call.message.chat.id)]["street_numb"] = 0
 
-			item1=types.InlineKeyboardButton("-",callback_data='street -')
+			item1=types.InlineKeyboardButton("назад",callback_data='street -')
 			item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["street_numb"])\
 				+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-			item2=types.InlineKeyboardButton("+",callback_data='street +')
+			item2=types.InlineKeyboardButton("далее",callback_data='street +')
 			markup.add(item1,item3,item2)
 			markup.add(item_start)
 			bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -978,10 +981,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("streetCode " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='street -')
+				item1=types.InlineKeyboardButton("назад",callback_data='street -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["street_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='street +')
+				item2=types.InlineKeyboardButton("далее",callback_data='street +')
 
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
@@ -1002,10 +1005,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("streetCode " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='street -')
+				item1=types.InlineKeyboardButton("назад",callback_data='street -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["street_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='street +')
+				item2=types.InlineKeyboardButton("далее",callback_data='street +')
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
 				bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -1022,10 +1025,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("streetCode " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='street -')
+				item1=types.InlineKeyboardButton("назад",callback_data='street -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["street_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='street +')
+				item2=types.InlineKeyboardButton("далее",callback_data='street +')
 
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
@@ -1046,10 +1049,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("streetCode " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='street -')
+				item1=types.InlineKeyboardButton("назад",callback_data='street -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["street_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='street +')
+				item2=types.InlineKeyboardButton("далее",callback_data='street +')
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
 				bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -1084,10 +1087,10 @@ def callback_worker(call):
 
 			database_user[str(call.message.chat.id)]["home_numb"] = 0
 
-			item1=types.InlineKeyboardButton("-",callback_data='home -')
+			item1=types.InlineKeyboardButton("назад",callback_data='home -')
 			item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["home_numb"])\
 				+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-			item2=types.InlineKeyboardButton("+",callback_data='home +')
+			item2=types.InlineKeyboardButton("далее",callback_data='home +')
 			markup.add(item1,item3,item2)
 			markup.add(item_start)
 			bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -1107,10 +1110,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("data " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='home -')
+				item1=types.InlineKeyboardButton("назад",callback_data='home -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["home_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='home +')
+				item2=types.InlineKeyboardButton("далее",callback_data='home +')
 
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
@@ -1131,10 +1134,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("data " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='home -')
+				item1=types.InlineKeyboardButton("назад",callback_data='home -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["home_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='home +')
+				item2=types.InlineKeyboardButton("далее",callback_data='home +')
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
 				bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -1151,10 +1154,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("data " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='home -')
+				item1=types.InlineKeyboardButton("назад",callback_data='home -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["home_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='home +')
+				item2=types.InlineKeyboardButton("далее",callback_data='home +')
 
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
@@ -1175,10 +1178,10 @@ def callback_worker(call):
 					item1=types.InlineKeyboardButton(i[0],callback_data=("data " + i[1]))
 					markup.add(item1)
 
-				item1=types.InlineKeyboardButton("-",callback_data='home -')
+				item1=types.InlineKeyboardButton("назад",callback_data='home -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["home_numb"])\
 					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-				item2=types.InlineKeyboardButton("+",callback_data='home +')
+				item2=types.InlineKeyboardButton("далее",callback_data='home +')
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
 				bot.delete_message(str(call.message.chat.id), call.message.id)
@@ -1210,9 +1213,9 @@ def callback_worker(call):
 			for i in a:
 				item1=types.InlineKeyboardButton(i[0],callback_data=("regionCode " + i[1]))
 				markup.add(item1)
-			item1=types.InlineKeyboardButton("-",callback_data='regions -')
+			item1=types.InlineKeyboardButton("назад",callback_data='regions -')
 			item3=types.InlineKeyboardButton("[0/"+str(int((len(regions)/8)))+"]",callback_data='chet')
-			item2=types.InlineKeyboardButton("+",callback_data='regions +')
+			item2=types.InlineKeyboardButton("далее",callback_data='regions +')
 
 			markup.add(item1,item3,item2)
 			markup.add(item_start)
@@ -1230,7 +1233,7 @@ def callback_worker(call):
 				"regions_numb":0,#номер страницы 
 				"citi_numb":0
 			}
-		bot.send_message(str(call.message.chat.id),'Сожалею , но случилась ошибка . Чтобы продолжить напишите "начать"',reply_markup=markup)
+		bot.send_message(str(call.message.chat.id),'Сожалею , но случилась ошибка . Чтобы продолжить напишите "начать"')
 		print(e)
 
 	with open("database_user.json", "w",encoding='utf-8') as file:
