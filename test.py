@@ -4,6 +4,10 @@ import telebot
 from telebot import types
 import math
 
+
+from pypo.data_list import regions_list, vilage_list , citi_list, area_list ,street_list ,home_list
+
+
 import pypo.getdata as gd #импорт функция из файла getdata в pypo 
 bot = telebot.TeleBot('5225585818:AAGSLsqeM02iZ5JwvEuocZmK9X4P2vlP6eE')
 
@@ -25,148 +29,6 @@ item_start =types.InlineKeyboardButton("в начало",callback_data='start_t'
 названия например городов и строки-кода для следущего запроса
 """
 
-def regions_list(list,numb):
-	#возращает 4 элемента из списка регионов 
-	a = []
-
-	b = 0#счетчик для обрезки по 4
-	c = []#подсписок
-	for i in list:
-
-		if b<8:
-			c.append([i["offName"] +' '+ i["shortName"], i["aoGuid"]])
-			b=b+1
-		
-		else:
-			a.append(c)
-			c = []
-			c.append([i["offName"] +' '+ i["shortName"], i["aoGuid"]])
-			b = 1
-	if len(c)!=0:#защита от того что последняя страница окажется не полной
-		a.append(c)
-
-	print(numb)
-	if numb == 0 :
-		a[numb].insert(0,['Хакасия Республика', '8d3f1d35-f0f4-41b5-b5b7-e7cadf3e7bd7'])
-
-	return(a[numb])
-
-def vilage_list(list,numb):
-	#возращает 4 элемента из списка регионов 
-	a = []
-
-	b = 0#счетчик для обрезки по 4
-	c = []#подсписок
-	for i in list:
-
-		if b<4:
-			c.append([i["formalName"] , i["aoGuid"]])
-			b=b+1
-		
-		else:
-			a.append(c)
-			c = []
-			c.append([i["formalName"] , i["aoGuid"]])
-			b = 1
-	if len(c)!=0:#защита от того что последняя страница окажется не полной
-		a.append(c)
-	return(a[numb])
-
-def citi_list(list,numb):
-	#возращает 4 элемента из списка регионов 
-	a = []
-
-	b = 0#счетчик для обрезки по 4
-	c = []#подсписок
-	for i in list:
-
-		if b<4:
-			c.append([i["formalName"] , i["aoGuid"]])
-			b=b+1
-		
-		else:
-			a.append(c)
-			c = []
-			c.append([i["formalName"] , i["aoGuid"]])
-			b = 1
-	if len(c)!=0:#защита от того что последняя страница окажется не полной
-		a.append(c)
-	return(a[numb])
-
-def area_list(list,numb):
-	#возращает 4 элемента из списка регионов 
-	#print(list)
-	a = []
-
-	b = 0#счетчик для обрезки по 4
-	c = []#подсписок
-	for i in list:
-
-		if b<4:
-			c.append([i["formalName"] , i["aoGuid"]])
-			b=b+1
-		
-		else:
-			a.append(c)
-			c = []
-			c.append([i["formalName"] , i["aoGuid"]])
-			b = 1
-	if len(c)!=0:#защита от того что последняя страница окажется не полной
-		a.append(c)
-
-	#print(numb)
-
-	return(a[numb])
-def street_list(list,numb):
-	#возращает 4 элемента из списка регионов 
-	a = []
-
-	b = 0#счетчик для обрезки по 4
-	c = []#подсписок
-	for i in list:
-
-		if b<7:
-			c.append([i["formalName"] , i["aoGuid"]])
-			b=b+1
-		
-		else:
-			a.append(c)
-			c = []
-			c.append([i["formalName"] , i["aoGuid"]])
-			b = 1
-	if len(c)!=0:#защита от того что последняя страница окажется не полной
-		a.append(c)
-
-	#print(numb)
-
-
-	return(a[numb])
-
-
-def home_list(list,numb):
-	#возращает 4 элемента из списка регионов 
-	a = []
-
-	b = 0#счетчик для обрезки по 4
-	c = []#подсписок
-	for i in list:
-
-		if b<7:
-			c.append([i["formattedAddress"].split(",")[-1] , i["houseGuid"]])
-			b=b+1
-		
-		else:
-			a.append(c)
-			c = []
-			c.append([i["formattedAddress"].split(",")[-1] , i["houseGuid"]])
-			b = 1
-	if len(c)!=0:#защита от того что последняя страница окажется не полной
-		a.append(c)
-
-	print(numb)
-
-
-	return(a[numb])
 
 
 
@@ -328,8 +190,8 @@ def callback_worker(call):
 
 		if call.data.split()[0] == "regionCode":
 			database_user[str(call.message.chat.id)]["regions"]  = call.data.split()[1]
-			database_user[str(call.message.chat.id)]["adres"]  = call.data.split()[2]
-			print(database_user)
+			#database_user[str(call.message.chat.id)]["adres"]  = call.data.split()[2]
+		
 			markup=types.InlineKeyboardMarkup()
 			item1=types.InlineKeyboardButton("Город",callback_data='citi')
 			item2=types.InlineKeyboardButton("Район",callback_data='area')
