@@ -4,11 +4,13 @@ import telebot
 from telebot import types
 import math
 
+import pypo.getdata as gd #импорт функция из файла getdata в pypo 
+import pypo.change_write as cw 
+#change_write - вынес выбор в этот файл 
 
 from pypo.data_list import regions_list, vilage_list , citi_list, area_list ,street_list ,home_list
 
 
-import pypo.getdata as gd #импорт функция из файла getdata в pypo 
 bot = telebot.TeleBot('5225585818:AAGSLsqeM02iZ5JwvEuocZmK9X4P2vlP6eE')
 
 
@@ -325,29 +327,9 @@ def callback_worker(call):
 
 		#населенный пункт -----------------------------------
 		if call.data.split()[0] == 'areaCode':
+			cw.areaCode_func(bot, call ,database_user)
 			
 
-			database_user[str(call.message.chat.id)]["area"]  = call.data.split()[1]
-			database_user[str(call.message.chat.id)]["cashe"] =  gd.get_vilage(\
-				database_user[str(call.message.chat.id)]["regions"],\
-				database_user[str(call.message.chat.id)]["area"]
-				)
-			markup=types.InlineKeyboardMarkup()
-			a=vilage_list(database_user[str(call.message.chat.id)]["cashe"],0)
-			for i in a:
-				item1=types.InlineKeyboardButton(i[0],callback_data=("vilageCode " + i[1]))
-				markup.add(item1)
-
-			database_user[str(call.message.chat.id)]["vilage_numb"] = 0
-
-			item1=types.InlineKeyboardButton("назад",callback_data='vilage -')
-			item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["area_numb"])\
-				+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-			item2=types.InlineKeyboardButton("далее",callback_data='vilage +')
-			markup.add(item1,item3,item2)
-			markup.add(item_start)
-			bot.delete_message(str(call.message.chat.id), call.message.id)
-			bot.send_message(str(call.message.chat.id),'выберите улицу из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)
 		if call.data== "vilage":
 			database_user[str(call.message.chat.id)]["cashe"] =  gd.get_vilages(database_user[str(call.message.chat.id)]["regions"])
 			database_user[str(call.message.chat.id)]["vilage_numb"] = 0
@@ -478,31 +460,8 @@ def callback_worker(call):
 							
 
 		if call.data.split()[0] == 'vilageCode':
-			
+			cw.vilageCode_func(bot, call ,database_user)
 
-			database_user[str(call.message.chat.id)]["settlementCode"]  = call.data.split()[1]
-			database_user[str(call.message.chat.id)]["cashe"] =  gd.get_vilage_streat(\
-				database_user[str(call.message.chat.id)]["regions"],\
-				database_user[str(call.message.chat.id)]["area"],
-				database_user[str(call.message.chat.id)]["settlementCode"]
-
-				)
-			markup=types.InlineKeyboardMarkup()
-			a=vilage_list(database_user[str(call.message.chat.id)]["cashe"],0)
-			for i in a:
-				item1=types.InlineKeyboardButton(i[0],callback_data=("settlementCode " + i[1]))
-				markup.add(item1)
-
-			database_user[str(call.message.chat.id)]["settlement_numb"] = 0
-
-			item1=types.InlineKeyboardButton("назад",callback_data='settlement -')
-			item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["area_numb"])\
-				+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-			item2=types.InlineKeyboardButton("далее",callback_data='settlement +')
-			markup.add(item1,item3,item2)
-			markup.add(item_start)
-			bot.delete_message(str(call.message.chat.id), call.message.id)
-			bot.send_message(str(call.message.chat.id),'выберите улицу из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)
 
 		if call.data == "settlement +": 
 			if int(int((len(database_user[str(call.message.chat.id)]["cashe"])/4))) > (database_user[str(call.message.chat.id)]["settlement_numb"] +1): 
@@ -609,35 +568,7 @@ def callback_worker(call):
 		#сельский домик ееееееееееее ----------------------
 
 		if call.data.split()[0] == 'settlementCode':
-			
-
-			database_user[str(call.message.chat.id)]["streetCode"]  = call.data.split()[1]
-			database_user[str(call.message.chat.id)]["cashe"] =  gd.get_vilage_streat_home(\
-				database_user[str(call.message.chat.id)]["regions"],\
-				database_user[str(call.message.chat.id)]["area"],
-				database_user[str(call.message.chat.id)]["settlementCode"],
-				database_user[str(call.message.chat.id)]["streetCode"]
-
-
-				)
-			markup=types.InlineKeyboardMarkup()
-			a=home_list(database_user[str(call.message.chat.id)]["cashe"],0)
-			for i in a:
-				item1=types.InlineKeyboardButton(i[0],callback_data=("data_vilage " + i[1]))
-				markup.add(item1)
-
-			database_user[str(call.message.chat.id)]["streetCode_numb"] = 0
-
-			item1=types.InlineKeyboardButton("назад",callback_data='settlement -')
-			item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["streetCode_numb"])\
-				+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-			item2=types.InlineKeyboardButton("далее",callback_data='settlement +')
-			markup.add(item1,item3,item2)
-			markup.add(item_start)
-			bot.delete_message(str(call.message.chat.id), call.message.id)
-			bot.send_message(str(call.message.chat.id),'выберите номер дома из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)
-
-
+			cw.settlementCode_func(bot, call ,database_user)
 
 		#сельский адрес ----------------------------------
 
@@ -792,34 +723,7 @@ def callback_worker(call):
 		#улицы-------------------------------------------
 
 		if call.data.split()[0] == 'citiCode':
-			database_user[str(call.message.chat.id)]["citi"]  = call.data.split()[1]
-			database_user[str(call.message.chat.id)]["cashe"] =  gd.get_streat(\
-				database_user[str(call.message.chat.id)]["regions"],\
-				database_user[str(call.message.chat.id)]["citi"]
-				)
-			markup=types.InlineKeyboardMarkup()
-			a=street_list(database_user[str(call.message.chat.id)]["cashe"],0)
-			for i in a:
-				item1=types.InlineKeyboardButton(i[0],callback_data=("streetCode " + i[1]))
-				markup.add(item1)
-
-			database_user[str(call.message.chat.id)]["street_numb"] = 0
-
-			item1=types.InlineKeyboardButton("назад",callback_data='street -')
-			item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["street_numb"])\
-				+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-			item2=types.InlineKeyboardButton("далее",callback_data='street +')
-			markup.add(item1,item3,item2)
-			markup.add(item_start)
-			bot.delete_message(str(call.message.chat.id), call.message.id)
-			bot.send_message(str(call.message.chat.id),'выберите улицу из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)
-				
-
-
-
-
-
-
+			cw.citiCode_func(bot, call,database_user)
 
 		if call.data == "street -": 
 			if 0<= (database_user[str(call.message.chat.id)]["street_numb"] -1): 
@@ -919,36 +823,8 @@ def callback_worker(call):
 			bot.answer_callback_query(call.id, "я просто счетчик , не тыкай на меня позязя)", show_alert=True)
 
 
-
-
-		
-
-
 		if call.data.split()[0] == 'streetCode':
-			database_user[str(call.message.chat.id)]["street"]  = call.data.split()[1]
-			database_user[str(call.message.chat.id)]["cashe"] =  gd.get_home(\
-				database_user[str(call.message.chat.id)]["regions"],\
-				database_user[str(call.message.chat.id)]["citi"],\
-				database_user[str(call.message.chat.id)]["street"],\
-				)
-			markup=types.InlineKeyboardMarkup()
-			a=home_list(database_user[str(call.message.chat.id)]["cashe"],0)
-			for i in a:
-				item1=types.InlineKeyboardButton(i[0],callback_data=("data " + i[1]))
-				markup.add(item1)
-
-			database_user[str(call.message.chat.id)]["home_numb"] = 0
-
-			item1=types.InlineKeyboardButton("назад",callback_data='home -')
-			item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["home_numb"])\
-				+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
-			item2=types.InlineKeyboardButton("далее",callback_data='home +')
-			markup.add(item1,item3,item2)
-			markup.add(item_start)
-			bot.delete_message(str(call.message.chat.id), call.message.id)
-			bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)
-
-
+			cw.streetCode_func(bot, call,database_user)
 
 		if call.data == "home -": 
 			if 0<= (database_user[str(call.message.chat.id)]["home_numb"] -1): 
