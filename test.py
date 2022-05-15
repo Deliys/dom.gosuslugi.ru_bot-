@@ -83,9 +83,6 @@ def handle_text(message):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_worker(call):
 	try:
-
-
-
 		if call.data == "regions -": 
 			if 0<= (database_user[str(call.message.chat.id)]["regions_numb"] -1): 
 				# это функция сравнивает колво страниц с номером на которой ты уже находишь +1 
