@@ -41,8 +41,8 @@ def start(m, res=False):
 
 def handle_text(message):
 	#print(database_user)
-	if (int(message.chat.id) in database_user) == False:
-		database_user[int(message.chat.id)]= {
+	if (str(message.chat.id) in database_user) == False:
+		database_user[str(message.chat.id)]= {
 				"regions_numb":0,#номер страницы 
 				"citi_numb":0,
 				"adres":""
@@ -83,6 +83,9 @@ def handle_text(message):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_worker(call):
 	try:
+
+
+
 		if call.data == "regions -": 
 			if 0<= (database_user[str(call.message.chat.id)]["regions_numb"] -1): 
 				# это функция сравнивает колво страниц с номером на которой ты уже находишь +1 
@@ -180,7 +183,9 @@ def callback_worker(call):
 		if call.data.split()[0] == "regionCode":
 			database_user[str(call.message.chat.id)]["regions"]  = call.data.split()[1]
 			#database_user[str(call.message.chat.id)]["adres"]  = call.data.split()[2]
-		
+
+				# if len(i[0]["callback_data"].split()) >1:
+					# print(i[0]["text"],i[0]["callback_data"].split()[1])
 			markup=types.InlineKeyboardMarkup()
 			item1=types.InlineKeyboardButton("Город",callback_data='citi')
 			item2=types.InlineKeyboardButton("Район",callback_data='area')
@@ -941,9 +946,10 @@ def callback_worker(call):
 
 			markup.add(item1,item3,item2)
 			markup.add(item_start)
-			database_user[int(call.message.chat.id)]= {
+			database_user[str(call.message.chat.id)]= {
 				"regions_numb":0,#номер страницы 
-				"citi_numb":0
+				"citi_numb":0,
+				"adres":""
 			}
 			
 			bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)
@@ -953,7 +959,8 @@ def callback_worker(call):
 	except Exception as e:
 		database_user[int(call.message.chat.id)]= {
 				"regions_numb":0,#номер страницы 
-				"citi_numb":0
+				"citi_numb":0,
+				"adres":""
 			}
 		bot.send_message(str(call.message.chat.id),'Сожалею , но случилась ошибка . Чтобы продолжить напишите "начать"')
 		print(e)

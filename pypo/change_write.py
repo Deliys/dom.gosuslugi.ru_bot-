@@ -1,7 +1,7 @@
 import json
 from telebot import types
 from pypo.data_list import regions_list, vilage_list , citi_list, area_list ,street_list ,home_list
-from pypo.text import areaCode_func_text , vilageCode_func_text ,settlementCode_func_text ,citiCode_func_text
+from pypo.text import areaCode_func_text , vilageCode_func_text ,settlementCode_func_text ,citiCode_func_text ,streetCode_func
 import pypo.getdata as gd #импорт функция из файла getdata в pypo
 
 item_start =types.InlineKeyboardButton("в начало",callback_data='start_t')
@@ -10,6 +10,14 @@ item_start =types.InlineKeyboardButton("в начало",callback_data='start_t'
 
 #генератор кнопок - button_gen
 def button_gen(database_user,bot , call , text_msg ,a ,main_bt ,second_bt):
+	
+	for i in call.message.json['reply_markup']['inline_keyboard']:
+		if len(i[0]["callback_data"].split()) >1:
+			if i[0]["callback_data"].split()[1] == call.data.split()[1]:
+				print(i[0]["text"])
+				database_user[str(call.message.chat.id)]["adres"]  = database_user[str(call.message.chat.id)]["adres"]+" "+i[0]["text"]
+
+				print(database_user[str(call.message.chat.id)]["adres"])
 	markup=types.InlineKeyboardMarkup()
 
 	for i in a:
@@ -47,7 +55,7 @@ def vilageCode_func(bot, call,database_user):
 
 		)
 	a=vilage_list(database_user[str(call.message.chat.id)]["cashe"],0)
-	button_gen(database_user,bot , call , areaCode_func_text ,a , "settlement" , "area")
+	button_gen(database_user,bot , call , vilageCode_func_text ,a , "settlement" , "area")
 
 def settlementCode_func(bot, call,database_user):
 	database_user[str(call.message.chat.id)]["streetCode_numb"] = 0
@@ -61,7 +69,7 @@ def settlementCode_func(bot, call,database_user):
 
 		)
 	a=home_list(database_user[str(call.message.chat.id)]["cashe"],0)
-	button_gen(database_user,bot , call , areaCode_func_text ,a , "settlement" , "streetCode")
+	button_gen(database_user,bot , call , settlementCode_func_text ,a , "settlement" , "streetCode")
 
 def citiCode_func(bot, call,database_user):
 	database_user[str(call.message.chat.id)]["street_numb"] = 0
@@ -74,7 +82,7 @@ def citiCode_func(bot, call,database_user):
 		)
 
 	a=street_list(database_user[str(call.message.chat.id)]["cashe"],0)
-	button_gen(database_user,bot , call , areaCode_func_text ,a , "street" , "street")
+	button_gen(database_user,bot , call , citiCode_func_text ,a , "street" , "street")
 	
 def streetCode_func(bot, call,database_user):
 	database_user[str(call.message.chat.id)]["home_numb"] = 0
@@ -86,4 +94,4 @@ def streetCode_func(bot, call,database_user):
 		)
 
 	a=home_list(database_user[str(call.message.chat.id)]["cashe"],0)
-	button_gen(database_user,bot , call , areaCode_func_text ,a , "home" , "home")
+	button_gen(database_user,bot , call , streetCode_func ,a , "home" , "home")
