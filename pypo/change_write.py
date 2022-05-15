@@ -8,16 +8,20 @@ item_start =types.InlineKeyboardButton("в начало",callback_data='start_t'
 
 
 
-#генератор кнопок - button_gen
-def button_gen(database_user,bot , call , text_msg ,a ,main_bt ,second_bt):
-	
+#get_adres
+def get_adres_text(call , database_user):
 	for i in call.message.json['reply_markup']['inline_keyboard']:
 		if len(i[0]["callback_data"].split()) >1:
 			if i[0]["callback_data"].split()[1] == call.data.split()[1]:
-				print(i[0]["text"])
 				database_user[str(call.message.chat.id)]["adres"]  = database_user[str(call.message.chat.id)]["adres"]+" "+i[0]["text"]
 
-				print(database_user[str(call.message.chat.id)]["adres"])
+				return i[0]["text"]
+#генератор кнопок - button_gen
+def button_gen(database_user,bot , call , text_msg ,a ,main_bt ,second_bt):
+	
+	get_adres_text(call,database_user)
+
+				
 	markup=types.InlineKeyboardMarkup()
 
 	for i in a:

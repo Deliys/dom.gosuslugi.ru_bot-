@@ -574,22 +574,6 @@ def callback_worker(call):
 
 		#сельский адрес ----------------------------------
 
-		if call.data.split()[0] == 'data_vilage':
-
-			database_user[str(call.message.chat.id)]["home"]  = call.data.split()[1]
-			text =  gd.get_compuni_vilage(\
-				database_user[str(call.message.chat.id)]["regions"],\
-				database_user[str(call.message.chat.id)]["area"],
-				database_user[str(call.message.chat.id)]["settlementCode"],
-				database_user[str(call.message.chat.id)]["streetCode"],call.data.split()[1]
-
-
-				)
-
-
-
-
-			bot.send_message(str(call.message.chat.id),text)	
 
 		#город-------------------------------------------
 
@@ -920,10 +904,7 @@ def callback_worker(call):
 
 
 
-
-		if call.data.split()[0] == 'data':
-
-			database_user[str(call.message.chat.id)]["home"]  = call.data.split()[1]
+		if call.data.split()[0] == 'data_text':
 			text =  gd.get_compuni(\
 				database_user[str(call.message.chat.id)]["regions"],\
 				database_user[str(call.message.chat.id)]["citi"],\
@@ -933,6 +914,39 @@ def callback_worker(call):
 
 			bot.send_message(str(call.message.chat.id),text)	
 
+		if call.data.split()[0] == 'data_vilage_text':
+			text =  gd.get_compuni_vilage(\
+				database_user[str(call.message.chat.id)]["regions"],\
+				database_user[str(call.message.chat.id)]["area"],
+				database_user[str(call.message.chat.id)]["settlementCode"],
+				database_user[str(call.message.chat.id)]["streetCode"],call.data.split()[1]
+
+
+				)
+			bot.send_message(str(call.message.chat.id),text)	
+
+
+		if call.data.split()[0] == 'data':
+			markup=types.InlineKeyboardMarkup()
+			item1=types.InlineKeyboardButton("верно ?",callback_data="data_text")
+			markup.add(item1)
+			markup.add(item_start)
+			cw.get_adres_text(call,database_user)
+			database_user[str(call.message.chat.id)]["home"]  = call.data.split()[1]
+			text = database_user[str(call.message.chat.id)]["adres"]
+			bot.send_message(str(call.message.chat.id),text,reply_markup=markup)	
+
+		if call.data.split()[0] == 'data_vilage':
+			markup=types.InlineKeyboardMarkup()
+			item1=types.InlineKeyboardButton("верно ?",callback_data="data_vilage_text")
+			markup.add(item1)
+			markup.add(item_start)
+
+			
+			cw.get_adres_text(call,database_user)
+			database_user[str(call.message.chat.id)]["home"]  = call.data.split()[1]
+			text = database_user[str(call.message.chat.id)]["adres"]
+			bot.send_message(str(call.message.chat.id),text,reply_markup=markup)	
 
 		if call.data == "start_t": 
 			markup=types.InlineKeyboardMarkup()
