@@ -80,7 +80,7 @@ def area_list(list,numb):
 	c = []#подсписок
 	for i in list:
 
-		if b<4:
+		if b<7:
 			c.append([i["formalName"] , i["aoGuid"]])
 			b=b+1
 		

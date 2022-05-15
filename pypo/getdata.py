@@ -93,7 +93,7 @@ def get_compuni(regionCode,cityCode,streetCode,homeCode):
 
 	s = requests.Session()
 
-	with open('5.json', 'r',encoding='utf-8') as fp:
+	with open('file/5.json', 'r',encoding='utf-8') as fp:
 		datas = json.load(fp)
 
 	datas["regionCode"]=regionCode
@@ -126,7 +126,7 @@ def get_compuni_vilage(regionCode,areaCode,settlementCode,streetCode ,houseCode)
 
 	s = requests.Session()
 
-	with open('6.json', 'r',encoding='utf-8') as fp:
+	with open('file/6.json', 'r',encoding='utf-8') as fp:
 		datas = json.load(fp)
 
 	datas["regionCode"]=regionCode
