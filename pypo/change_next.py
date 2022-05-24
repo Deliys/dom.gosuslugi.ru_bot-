@@ -8,9 +8,6 @@ from pypo.change_write import item_start
 from pypo.change_write import button_gen
 
 
-
-
-
 def regions_next(bot, call ,database_user ,regions):
 
 	if call.data == "regions -": 
@@ -33,16 +30,12 @@ def regions_next(bot, call ,database_user ,regions):
 			markup.add(item1,item3,item2)
 			markup.add(item_start)
 			
-
-
 			bot.delete_message(str(call.message.chat.id), call.message.id)
 			bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)
 
 			
 		else:
-
 			database_user[str(call.message.chat.id)]["regions_numb"] = int((len(regions)/8))
-			 
 			markup=types.InlineKeyboardMarkup()
 			a=regions_list(regions,database_user[str(call.message.chat.id)]["regions_numb"])
 			for i in a:

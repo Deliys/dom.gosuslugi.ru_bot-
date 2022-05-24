@@ -4,6 +4,12 @@ import telebot
 from telebot import types
 import math
 
+import difflib
+import numpy
+from pypo.data_list import regions_list_all
+
+import pypo.find_closet_match as find_far_name
+
 import pypo.getdata as gd #импорт функция из файла getdata в pypo 
 import pypo.change_write as cw 
 import pypo.change_next as cn 
@@ -83,7 +89,15 @@ def handle_text(message):
 
 
 	else:
-		bot.send_message(message.chat.id, 'Вы написали: ' + message.text)
+		markup=types.InlineKeyboardMarkup()
+		a = find_far_name.find_closet_match_name(str(message.text), regions_list_all(regions))
+		for i in a:
+			item1=types.InlineKeyboardButton(i[0],callback_data=("regionCode " + i[1]))
+			markup.add(item1)
+		item2=types.InlineKeyboardButton('❌',callback_data=("delete"))
+		markup.add(item_start ,item2)
+		bot.send_message(message.chat.id,'по вашему запросу мы нашли 3 наиболее подходящих варианта',reply_markup=markup)
+
 # Запускаем бота
 
 
@@ -317,7 +331,6 @@ def callback_worker(call):
 				markup.add(item_start)
 				
 
-
 				bot.delete_message(str(call.message.chat.id), call.message.id)
 				bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)
 
@@ -379,7 +392,7 @@ def callback_worker(call):
 				
 			else:
 
-				database_user[str(call.message.chat.id)]["home_numb"] = int((len(database_user[str(call.message.chat.id)]["cashe"]))/7)
+				database_user[str(call.message.chat.id)]["home_numb"] = int((len(database_user[str(call.message.chat.id)]["cashe"]))/25)
 				 
 				markup=types.InlineKeyboardMarkup()
 				a=home_list(database_user[str(call.message.chat.id)]["cashe"],database_user[str(call.message.chat.id)]["home_numb"])
@@ -389,14 +402,14 @@ def callback_worker(call):
 
 				item1=types.InlineKeyboardButton("назад",callback_data='home -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["home_numb"])\
-					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
+					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/25)))+"]",callback_data='chet')
 				item2=types.InlineKeyboardButton("далее",callback_data='home +')
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
 				bot.delete_message(str(call.message.chat.id), call.message.id)
 				bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)	
 		if call.data == "home +": 
-			if int(int((len(database_user[str(call.message.chat.id)]["cashe"])/7))) >= (database_user[str(call.message.chat.id)]["home_numb"] +1): 
+			if int(int((len(database_user[str(call.message.chat.id)]["cashe"])/25))) >= (database_user[str(call.message.chat.id)]["home_numb"] +1): 
 				# эта страшная черуха сравнивает колво страниц с номером на которой ты уже находишь +1 
 				# если листов больше ,то перебросит на следущий , если листов меньше , то кинет на лист первый(0)
 				database_user[str(call.message.chat.id)]["home_numb"] = database_user[str(call.message.chat.id)]["home_numb"] +1
@@ -409,7 +422,7 @@ def callback_worker(call):
 
 				item1=types.InlineKeyboardButton("назад",callback_data='home -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["home_numb"])\
-					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
+					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/25)))+"]",callback_data='chet')
 				item2=types.InlineKeyboardButton("далее",callback_data='home +')
 
 				markup.add(item1,item3,item2)
@@ -433,7 +446,7 @@ def callback_worker(call):
 
 				item1=types.InlineKeyboardButton("назад",callback_data='home -')
 				item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["home_numb"])\
-					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
+					+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/25)))+"]",callback_data='chet')
 				item2=types.InlineKeyboardButton("далее",callback_data='home +')
 				markup.add(item1,item3,item2)
 				markup.add(item_start)
@@ -509,6 +522,10 @@ def callback_worker(call):
 				
 		if call.data == "chet": 
 			bot.answer_callback_query(call.id, "я просто счетчик , не тыкай на меня позязя)", show_alert=True)
+
+		if call.data == "delete": 
+			bot.delete_message(str(call.message.chat.id), call.message.id)
+
 	except Exception as e:
 		database_user[int(call.message.chat.id)]= {
 				"regions_numb":0,#номер страницы 

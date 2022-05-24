@@ -28,6 +28,17 @@ def regions_list(list,numb):
 		a[numb].insert(0,['Хакасия Республика', '8d3f1d35-f0f4-41b5-b5b7-e7cadf3e7bd7'])
 
 	return(a[numb])
+def regions_list_all(list):
+	#возращает 4 элемента из списка регионов 
+	a = []
+
+	for i in list:
+		
+		a.append([i["offName"] +' '+ i["shortName"], i["aoGuid"]])
+
+
+	return(a)
+
 
 def vilage_list(list,numb):
 	#возращает 4 элемента из списка регионов 
@@ -125,11 +136,13 @@ def home_list(list,numb):
 	#возращает 4 элемента из списка регионов 
 	a = []
 
-	b = 0#счетчик для обрезки по 4
+	b = 0#счетчик для обрезки по 5
+	f = 0#счетчик для обрезки по 5
+
 	c = []#подсписок
 	for i in list:
 
-		if b<7:
+		if b<25:
 			c.append([i["formattedAddress"].split(",")[-1] , i["houseGuid"]])
 			b=b+1
 		
@@ -138,10 +151,12 @@ def home_list(list,numb):
 			c = []
 			c.append([i["formattedAddress"].split(",")[-1] , i["houseGuid"]])
 			b = 1
+
 	if len(c)!=0:#защита от того что последняя страница окажется не полной
 		a.append(c)
 
-	print(numb)
+
+	#print(numb)
 
 
 	return(a[numb])

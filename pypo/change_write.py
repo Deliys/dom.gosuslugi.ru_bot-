@@ -16,6 +16,9 @@ def get_adres_text(call , database_user):
 				database_user[str(call.message.chat.id)]["adres"]  = database_user[str(call.message.chat.id)]["adres"]+" "+i[0]["text"]
 
 				return i[0]["text"]
+
+
+
 #генератор кнопок - button_gen
 def button_gen(database_user,bot , call , text_msg ,a ,main_bt ,second_bt):
 	
@@ -27,6 +30,39 @@ def button_gen(database_user,bot , call , text_msg ,a ,main_bt ,second_bt):
 	for i in a:
 		item1=types.InlineKeyboardButton(i[0],callback_data=(main_bt+"Code " + i[1]))
 		markup.add(item1)
+
+	item1=types.InlineKeyboardButton("назад",callback_data=main_bt+' -')
+	item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)][second_bt+"_numb"])\
+		+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
+	item2=types.InlineKeyboardButton("далее",callback_data=main_bt+' +')
+	markup.add(item1,item3,item2)
+	markup.add(item_start)
+	bot.delete_message(str(call.message.chat.id), call.message.id)
+	bot.send_message(str(call.message.chat.id),text_msg,reply_markup=markup)
+
+
+
+def button_gen_long(database_user,bot , call , text_msg ,a ,main_bt ,second_bt):
+	
+	get_adres_text(call,database_user)
+
+				
+	markup=types.InlineKeyboardMarkup()
+
+	aa = []
+
+	for i in a:
+		if len(aa) == 3:
+			markup.add(aa[0],aa[1],aa[2])
+			aa=[]
+		else:
+			item1=types.InlineKeyboardButton(i[0],callback_data=(main_bt+"Code " + i[1]))
+			#markup.add(item1)
+			aa.append(item1)
+
+	# if len(aa) <7:
+	# 	markup.add(aa)
+
 
 	item1=types.InlineKeyboardButton("назад",callback_data=main_bt+' -')
 	item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)][second_bt+"_numb"])\
@@ -98,4 +134,6 @@ def streetCode_func(bot, call,database_user):
 		)
 
 	a=home_list(database_user[str(call.message.chat.id)]["cashe"],0)
-	button_gen(database_user,bot , call , streetCode_func ,a , "home" , "home")
+	print(a)
+
+	button_gen_long(database_user,bot , call , streetCode_func ,a , "home" , "home")
