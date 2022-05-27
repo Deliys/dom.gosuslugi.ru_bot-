@@ -103,7 +103,7 @@ def handle_text(message):
 			("street" in database_user[str(message.chat.id)]) and\
 			("citi" in database_user[str(message.chat.id)])
 			):
-			print("хуй дом")
+			
 			#------выбор дом-------
 			markup=types.InlineKeyboardMarkup()
 			a = find_far_name.find_closet_match_name(str(message.text), home_list_all(database_user[str(message.chat.id)]["cashe"]))
@@ -116,7 +116,7 @@ def handle_text(message):
 		elif (("regions" in database_user[str(message.chat.id)]) and\
 			("citi" in database_user[str(message.chat.id)])
 			):
-			print("хуй улица")
+		
 			#------выбор улицу-------
 			markup=types.InlineKeyboardMarkup()
 			a = find_far_name.find_closet_match_name(str(message.text), street_list_all(database_user[str(message.chat.id)]["cashe"]))
@@ -129,7 +129,7 @@ def handle_text(message):
 
 
 		elif ("regions" in database_user[str(message.chat.id)]):
-			print("хуй город")
+			
 			#------выбор города-------
 			markup=types.InlineKeyboardMarkup()
 			a = find_far_name.find_closet_match_name(str(message.text), citi_list_all(database_user[str(message.chat.id)]["cashe"]))
