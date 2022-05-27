@@ -29,16 +29,10 @@ def regions_list(list,numb):
 
 	return(a[numb])
 def regions_list_all(list):
-	#возращает 4 элемента из списка регионов 
 	a = []
-
-	for i in list:
-		
+	for i in list:	
 		a.append([i["offName"] +' '+ i["shortName"], i["aoGuid"]])
-
-
 	return(a)
-
 
 def vilage_list(list,numb):
 	#возращает 4 элемента из списка регионов 
@@ -60,6 +54,11 @@ def vilage_list(list,numb):
 	if len(c)!=0:#защита от того что последняя страница окажется не полной
 		a.append(c)
 	return(a[numb])
+def vilage_list_all(list):
+	a = []
+	for i in list:	
+		a.append([i["formalName"] , i["aoGuid"]])
+	return(a)
 
 def citi_list(list,numb):
 	#возращает 4 элемента из списка регионов 
@@ -81,6 +80,11 @@ def citi_list(list,numb):
 	if len(c)!=0:#защита от того что последняя страница окажется не полной
 		a.append(c)
 	return(a[numb])
+def citi_list_all(list):
+	a = []
+	for i in list:	
+		a.append([i["formalName"] , i["aoGuid"]])
+	return(a)
 
 def area_list(list,numb):
 	#возращает 4 элемента из списка регионов 
@@ -106,6 +110,13 @@ def area_list(list,numb):
 	#print(numb)
 
 	return(a[numb])
+def area_list_all(list):
+	a = []
+	for i in list:	
+		a.append([i["formalName"] , i["aoGuid"]])
+	return(a)
+
+
 def street_list(list,numb):
 	#возращает 4 элемента из списка регионов 
 	a = []
@@ -130,6 +141,11 @@ def street_list(list,numb):
 
 
 	return(a[numb])
+def street_list_all(list):
+	a = []
+	for i in list:	
+		a.append([i["formalName"] , i["aoGuid"]])
+	return(a)
 
 
 def home_list(list,numb):
@@ -160,3 +176,8 @@ def home_list(list,numb):
 
 
 	return(a[numb])
+def home_list_all(list):
+	a = []
+	for i in list:	
+		a.append([i["formattedAddress"].split(",")[-1] , i["houseGuid"]])
+	return(a)

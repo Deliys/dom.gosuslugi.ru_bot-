@@ -6,7 +6,17 @@ import math
 
 import difflib
 import numpy
+
+
 from pypo.data_list import regions_list_all
+from pypo.data_list import citi_list_all
+from pypo.data_list import area_list_all
+from pypo.data_list import regions_list_all
+from pypo.data_list import street_list_all
+from pypo.data_list import home_list_all
+
+
+
 
 import pypo.find_closet_match as find_far_name
 
@@ -63,7 +73,7 @@ def handle_text(message):
 
 		#print(database_user)
 
-		with open("database_user.json", "w",encoding='utf-8') as file:
+		with open('file/database_user.json', "w",encoding='utf-8') as file:
 			json.dump(database_user, file, indent=4, ensure_ascii=False)
 
 	if message.text == "начать":
@@ -89,14 +99,58 @@ def handle_text(message):
 
 
 	else:
-		markup=types.InlineKeyboardMarkup()
-		a = find_far_name.find_closet_match_name(str(message.text), regions_list_all(regions))
-		for i in a:
-			item1=types.InlineKeyboardButton(i[0],callback_data=("regionCode " + i[1]))
-			markup.add(item1)
-		item2=types.InlineKeyboardButton('❌',callback_data=("delete"))
-		markup.add(item_start ,item2)
-		bot.send_message(message.chat.id,'по вашему запросу мы нашли 3 наиболее подходящих варианта',reply_markup=markup)
+		if (("regions" in database_user[str(message.chat.id)]) and\
+			("street" in database_user[str(message.chat.id)]) and\
+			("citi" in database_user[str(message.chat.id)])
+			):
+			print("хуй дом")
+			#------выбор дом-------
+			markup=types.InlineKeyboardMarkup()
+			a = find_far_name.find_closet_match_name(str(message.text), home_list_all(database_user[str(message.chat.id)]["cashe"]))
+			for i in a:
+				item1=types.InlineKeyboardButton(i[0],callback_data=("data " + i[1]))
+				markup.add(item1)
+			item2=types.InlineKeyboardButton('❌',callback_data=("delete"))
+			markup.add(item_start ,item2)
+			bot.send_message(message.chat.id,'Выбор улицу . по вашему запросу мы нашли 3 наиболее подходящих варианта',reply_markup=markup)
+		elif (("regions" in database_user[str(message.chat.id)]) and\
+			("citi" in database_user[str(message.chat.id)])
+			):
+			print("хуй улица")
+			#------выбор улицу-------
+			markup=types.InlineKeyboardMarkup()
+			a = find_far_name.find_closet_match_name(str(message.text), street_list_all(database_user[str(message.chat.id)]["cashe"]))
+			for i in a:
+				item1=types.InlineKeyboardButton(i[0],callback_data=("streetCode " + i[1]))
+				markup.add(item1)
+			item2=types.InlineKeyboardButton('❌',callback_data=("delete"))
+			markup.add(item_start ,item2)
+			bot.send_message(message.chat.id,'Выбор улицу . по вашему запросу мы нашли 3 наиболее подходящих варианта',reply_markup=markup)
+
+
+		elif ("regions" in database_user[str(message.chat.id)]):
+			print("хуй город")
+			#------выбор города-------
+			markup=types.InlineKeyboardMarkup()
+			a = find_far_name.find_closet_match_name(str(message.text), citi_list_all(database_user[str(message.chat.id)]["cashe"]))
+			for i in a:
+				item1=types.InlineKeyboardButton(i[0],callback_data=("citiCode " + i[1]))
+				markup.add(item1)
+			item2=types.InlineKeyboardButton('❌',callback_data=("delete"))
+			markup.add(item_start ,item2)
+			bot.send_message(message.chat.id,'Выбор города . по вашему запросу мы нашли 3 наиболее подходящих варианта',reply_markup=markup)
+
+		else:
+			#------выбор региона-------
+			markup=types.InlineKeyboardMarkup()
+			a = find_far_name.find_closet_match_name(str(message.text), regions_list_all(regions))
+			for i in a:
+				item1=types.InlineKeyboardButton(i[0],callback_data=("regionCode " + i[1]))
+				markup.add(item1)
+			item2=types.InlineKeyboardButton('❌',callback_data=("delete"))
+			markup.add(item_start ,item2)
+			bot.send_message(message.chat.id,'Выбор региона . по вашему запросу мы нашли 3 наиболее подходящих варианта',reply_markup=markup)
+
 
 # Запускаем бота
 
@@ -535,7 +589,7 @@ def callback_worker(call):
 		bot.send_message(str(call.message.chat.id),'Сожалею , но случилась ошибка . Чтобы продолжить напишите "начать"')
 		print(e)
 
-	with open("database_user.json", "w",encoding='utf-8') as file:
+	with open('file/database_user.json', "w",encoding='utf-8') as file:
 		json.dump(database_user, file, indent=4, ensure_ascii=False)
 bot.polling(none_stop=True, interval=0)
 
