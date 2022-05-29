@@ -4,12 +4,36 @@ import json
 #ссыль куда мы гидаем запросы
 start_url = 'https://dom.gosuslugi.ru/nsi/api/rest/services/nsi/fias/v4'
 
+def telephon_number(i):
+	i = list(str(i))
+	if i[0] == "+":
+		i.pop(0)
+	if i[0] == "8":
+		i.pop(0)
+		i.insert(0,7)
+	if i[0] != "+":
+		i.insert(0,"+")
+		
+
+
+	text =''
+	f = ["-","(",")", " "]
+	for ii in i:
+		if ((ii in f)== False):
+			text = text + str(ii) 
+
+
+
+	return text
 
 
 """ функции ниже отправляют get запросы с помощью того что подставляют коды 
 в изначальную ссылку . С каждым выбором мы добавляем новые данные в ссылку и 
 сохроняем пребедущие
 """
+
+
+
 
 def get_citis(regionCode):
 	url = start_url+'/cities?actual=true&itemsPerPage=100&page=1&regionCode='+regionCode+'&searchString='
@@ -112,7 +136,7 @@ def get_compuni(regionCode,cityCode,streetCode,homeCode):
 			g = g +1
 			text = text + "\n["+str(g)+"]" +i["shortName"]+"\n" 
 			if i["phone"] != None:
-				text = text +"\n" + str(i["phone"])+"\n"
+				text = text +"\n" + telephon_number(str(i["phone"]))+"\n"
 			
 			if i["url"] != None:
 				text = text +"\n" + str(i["url"])+"\n"
@@ -147,7 +171,7 @@ def get_compuni_vilage(regionCode,areaCode,settlementCode,streetCode ,houseCode)
 			g = g +1
 			text = text + "\n["+str(g)+"]" +i["shortName"]+"\n"
 			if i["phone"] != None:
-				text = text +"\n" + str(i["phone"])+"\n"
+				text = text +"\n" + telephon_number(str(i["phone"]))+"\n"
 			
 			if i["url"] != None:
 				text = text +"\n" + str(i["url"])+"\n"
