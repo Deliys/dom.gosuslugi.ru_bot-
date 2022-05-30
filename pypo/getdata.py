@@ -134,7 +134,7 @@ def get_compuni(regionCode,cityCode,streetCode,homeCode):
 		g = 0
 		for i in json.loads(loging.text)["organizationSummaryWithNsiList"]:
 			g = g +1
-			text = text + "\n("+str(g)+")" +i["shortName"]+"\n" 
+			text = text + "\n"+str(g)+")" +i["shortName"]+"\n" 
 			if i["phone"] != None:
 				text = text +"\n" + telephon_number(str(i["phone"]))+"\n"
 			
@@ -169,7 +169,7 @@ def get_compuni_vilage(regionCode,areaCode,settlementCode,streetCode ,houseCode)
 		g = 0
 		for i in json.loads(loging.text)["organizationSummaryWithNsiList"]:
 			g = g +1
-			text = text + "\n("+str(g)+")" +i["shortName"]+"\n"
+			text = text + "\n"+str(g)+")" +i["shortName"]+"\n"
 			if i["phone"] != None:
 				text = text +"\n" + telephon_number(str(i["phone"]))+"\n"
 			
