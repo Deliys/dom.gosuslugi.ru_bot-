@@ -125,7 +125,7 @@ def street_list(list,numb):
 	c = []#подсписок
 	for i in list:
 
-		if b<7:
+		if b<20:
 			c.append([i["formalName"] , i["aoGuid"]])
 			b=b+1
 		

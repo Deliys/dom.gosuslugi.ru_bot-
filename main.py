@@ -33,7 +33,7 @@ from pypo.data_list import regions_list, vilage_list , citi_list, area_list ,str
 #еще нет
 
 
-bot = telebot.TeleBot('5225585818:AAGSLsqeM02iZ5JwvEuocZmK9X4P2vlP6eE')
+bot = telebot.TeleBot('5335585579:AAFcNbUtWijoW4ghUvq_RWhn0N_OAboQL1s')
 
 
 with open('file/database_user.json', 'r',encoding='utf-8') as fp:
@@ -335,7 +335,7 @@ while True:
 
 						item1=types.InlineKeyboardButton("назад",callback_data='street -')
 						item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["street_numb"])\
-							+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
+							+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/15)))+"]",callback_data='chet')
 						item2=types.InlineKeyboardButton("далее",callback_data='street +')
 
 						markup.add(item1,item3,item2)
@@ -359,14 +359,14 @@ while True:
 
 						item1=types.InlineKeyboardButton("назад",callback_data='street -')
 						item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["street_numb"])\
-							+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
+							+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/15)))+"]",callback_data='chet')
 						item2=types.InlineKeyboardButton("далее",callback_data='street +')
 						markup.add(item1,item3,item2)
 						markup.add(item_start)
 						bot.delete_message(str(call.message.chat.id), call.message.id)
 						bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)	
 				if call.data == "street +": 
-					if int(int((len(database_user[str(call.message.chat.id)]["cashe"])/7))) >= (database_user[str(call.message.chat.id)]["street_numb"] +1): 
+					if int(int((len(database_user[str(call.message.chat.id)]["cashe"])/15))) >= (database_user[str(call.message.chat.id)]["street_numb"] +1): 
 						# эта страшная черуха сравнивает колво страниц с номером на которой ты уже находишь +1 
 						# если листов больше ,то перебросит на следущий , если листов меньше , то кинет на лист первый(0)
 						database_user[str(call.message.chat.id)]["street_numb"] = database_user[str(call.message.chat.id)]["street_numb"] +1
@@ -379,7 +379,7 @@ while True:
 
 						item1=types.InlineKeyboardButton("назад",callback_data='street -')
 						item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["street_numb"])\
-							+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
+							+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/15)))+"]",callback_data='chet')
 						item2=types.InlineKeyboardButton("далее",callback_data='street +')
 
 						markup.add(item1,item3,item2)
