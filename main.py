@@ -178,7 +178,7 @@ while True:
 					markup.add(item1,item2)
 
 					bot.delete_message(str(call.message.chat.id), call.message.id)
-					bot.send_message(str(call.message.chat.id),'выберите Город или Район',reply_markup=markup)	
+					bot.send_message(str(call.message.chat.id),'Выберите город или район',reply_markup=markup)	
 					
 				
 
