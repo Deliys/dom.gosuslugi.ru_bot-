@@ -7,7 +7,6 @@ import math
 import difflib
 import numpy
 
-
 from pypo.data_list import regions_list_all
 from pypo.data_list import citi_list_all
 from pypo.data_list import area_list_all
@@ -15,11 +14,7 @@ from pypo.data_list import regions_list_all
 from pypo.data_list import street_list_all
 from pypo.data_list import home_list_all
 
-
-
-
 import pypo.find_closet_match as find_far_name
-
 import pypo.getdata as gd #импорт функция из файла getdata в pypo 
 import pypo.change_write as cw 
 import pypo.change_next as cn 
