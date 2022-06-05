@@ -30,11 +30,10 @@ from pypo.data_list import regions_list, vilage_list , citi_list, area_list ,str
 bot = telebot.TeleBot('5335585579:AAFcNbUtWijoW4ghUvq_RWhn0N_OAboQL1s')
 
 
+#открытие файла для временного сохранения данных для каждого пользователя
 with open('file/database_user.json', 'r',encoding='utf-8') as fp:
 	database_user = json.load(fp)
-
-
-
+#открытие файла с формой json для запроса на госулуги
 with open('file/regions.json', 'r',encoding='utf-8') as fp:
 	regions = json.load(fp)
 
