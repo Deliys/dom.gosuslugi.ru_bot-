@@ -1,31 +1,30 @@
-import requests
-import json
-import telebot
+import requests #работа post/get запросами для получения данных с gosuslug
+import json #работа с json (база пользователей)
+#работа с телеграмом
+import telebot 
 from telebot import types
+#вспомогательные библиотеки для ускорения работы
 import math
-
 import difflib
-import numpy
+import numpy 
 
+#импорот 
 from pypo.data_list import regions_list_all
 from pypo.data_list import citi_list_all
-from pypo.data_list import area_list_all
-from pypo.data_list import regions_list_all
 from pypo.data_list import street_list_all
 from pypo.data_list import home_list_all
 
+#-------------------------------------
+#вынос лишних функция далее/назад в отдельные файлы 
 import pypo.find_closet_match as find_far_name
 import pypo.getdata as gd #импорт функция из файла getdata в pypo 
 import pypo.change_write as cw 
 import pypo.change_next as cn 
 
-#change_write - вынес выбор в этот файл 
-
+#change_write - вынес выбор в этот файл
 from pypo.data_list import regions_list, vilage_list , citi_list, area_list ,street_list ,home_list
+#-------------------------------------
 
-
-#вынос лишних функция далее/назад в отдельные файлы
-#еще нет
 
 
 bot = telebot.TeleBot('5335585579:AAFcNbUtWijoW4ghUvq_RWhn0N_OAboQL1s')
