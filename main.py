@@ -150,7 +150,7 @@ while True:
 						markup=types.InlineKeyboardMarkup()
 						a=home_list(database_user[str(call.message.chat.id)]["cashe"],database_user[str(call.message.chat.id)]["streetCode_numb"])
 						for i in a:
-							item1=types.InlineKeyboardButton(i[0],callback_data=("settlementCode " + i[1]))
+							item1=types.InlineKeyboardButton(i[0],callback_data=("data_vilage_text " + i[1]))
 							markup.add(item1)
 
 						item1=types.InlineKeyboardButton("назад",callback_data='settlement_v -')
@@ -174,7 +174,7 @@ while True:
 
 						a=home_list(database_user[str(call.message.chat.id)]["cashe"],0)
 						for i in a:
-							item1=types.InlineKeyboardButton(i[0],callback_data=("settlementCode " + i[1]))
+							item1=types.InlineKeyboardButton(i[0],callback_data=("data_vilage_text " + i[1]))
 							markup.add(item1)
 
 
@@ -201,7 +201,7 @@ while True:
 						markup=types.InlineKeyboardMarkup()
 						a=home_list(database_user[str(call.message.chat.id)]["cashe"],database_user[str(call.message.chat.id)]["streetCode_numb"])
 						for i in a:
-							item1=types.InlineKeyboardButton(i[0],callback_data=("settlementCode " + i[1]))
+							item1=types.InlineKeyboardButton(i[0],callback_data=("data_vilage_text " + i[1]))
 							markup.add(item1)
 
 						item1=types.InlineKeyboardButton("назад",callback_data='settlement_v -')
@@ -226,7 +226,7 @@ while True:
 
 						a=home_list(database_user[str(call.message.chat.id)]["cashe"],int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))
 						for i in a:
-							item1=types.InlineKeyboardButton(i[0],callback_data=("settlementCode " + i[1]))
+							item1=types.InlineKeyboardButton(i[0],callback_data=("data_vilage_text " + i[1]))
 							markup.add(item1)
 
 
@@ -485,7 +485,8 @@ while True:
 						markup.add(item_start)
 						
 						bot.delete_message(str(call.message.chat.id), call.message.id)
-						bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)
+						bot.send_message(str(call.message.chat.id),'Выберите улицу',reply_markup=markup)	
+
 
 						
 					else:
@@ -505,7 +506,8 @@ while True:
 						markup.add(item1,item3,item2)
 						markup.add(item_start)
 						bot.delete_message(str(call.message.chat.id), call.message.id)
-						bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)	
+						bot.send_message(str(call.message.chat.id),'Выберите улицу',reply_markup=markup)	
+
 				if call.data == "home +": 
 					if int(int((len(database_user[str(call.message.chat.id)]["cashe"])/25))) >= (database_user[str(call.message.chat.id)]["home_numb"] +1): 
 						# эта страшная черуха сравнивает колво страниц с номером на которой ты уже находишь +1 
@@ -529,7 +531,8 @@ while True:
 
 
 						bot.delete_message(str(call.message.chat.id), call.message.id)
-						bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)
+						bot.send_message(str(call.message.chat.id),'Выберите улицу',reply_markup=markup)	
+
 
 						
 					else:
@@ -549,7 +552,7 @@ while True:
 						markup.add(item1,item3,item2)
 						markup.add(item_start)
 						bot.delete_message(str(call.message.chat.id), call.message.id)
-						bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)	
+						bot.send_message(str(call.message.chat.id),'Выберите улицу',reply_markup=markup)	
 
 
 

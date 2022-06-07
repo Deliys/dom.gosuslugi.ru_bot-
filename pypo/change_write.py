@@ -64,6 +64,28 @@ def button_gen_long(database_user,bot , call , text_msg ,a ,main_bt ,second_bt):
 	markup.add(item_start)
 	bot.delete_message(str(call.message.chat.id), call.message.id)
 	bot.send_message(str(call.message.chat.id),text_msg,reply_markup=markup)
+def button_gen_long_v(database_user,bot , call , text_msg ,a ,main_bt ,second_bt):
+	
+	get_adres_text(call,database_user)
+
+				
+	markup=types.InlineKeyboardMarkup()
+
+	for i in a:
+		item1=types.InlineKeyboardButton(i[0],callback_data=("data_vilage_text " + i[1]))
+		markup.add(item1)
+	# if len(aa) <7:
+	# 	markup.add(aa)
+
+
+	item1=types.InlineKeyboardButton("назад",callback_data=main_bt+' -')
+	item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)][second_bt+"_numb"])\
+		+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
+	item2=types.InlineKeyboardButton("далее",callback_data=main_bt+' +')
+	markup.add(item1,item3,item2)
+	markup.add(item_start)
+	bot.delete_message(str(call.message.chat.id), call.message.id)
+	bot.send_message(str(call.message.chat.id),text_msg,reply_markup=markup)
 
 #-------------------------
 
@@ -102,7 +124,9 @@ def settlementCode_func(bot, call,database_user):
 		)
 	print("--------------------------------------------")
 	a=home_list(database_user[str(call.message.chat.id)]["cashe"],0)
-	button_gen(database_user,bot , call , settlementCode_func_text ,a , "settlement_v" , "streetCode")
+	#button_gen(database_user,bot , call , settlementCode_func_text ,a , "settlement_v" , "streetCode")
+	button_gen_long_v(database_user,bot , call , streetCode_func ,a , "settlement_v" , "streetCode")
+
 
 def citiCode_func(bot, call,database_user):
 	database_user[str(call.message.chat.id)]["street_numb"] = 0
