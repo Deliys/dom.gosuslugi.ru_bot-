@@ -125,7 +125,7 @@ def street_list(list,numb):
 	c = []#подсписок
 	for i in list:
 
-		if b<20:
+		if b<21:
 			c.append([i["formalName"] , i["aoGuid"]])
 			b=b+1
 		
@@ -152,13 +152,13 @@ def home_list(list,numb):
 	#возращает 4 элемента из списка регионов 
 	a = []
 
-	b = 0#счетчик для обрезки по 5
-	f = 0#счетчик для обрезки по 5
+	b = 0
+	f = 0
 
 	c = []#подсписок
 	for i in list:
 
-		if b<25:
+		if b<8:
 			c.append([i["formattedAddress"].split(",")[-1] , i["houseGuid"]])
 			b=b+1
 		
