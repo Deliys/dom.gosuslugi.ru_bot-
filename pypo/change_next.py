@@ -140,12 +140,12 @@ def vilage_next(bot, call ,database_user ):
 		button_gen(database_user,bot , call , vilage_next_text ,a , "vilage" , "vilage")
 
 	if call.data == "vilage +": 
-		if int(int((len(database_user[str(call.message.chat.id)]["cashe"])/4))) > (database_user[str(call.message.chat.id)]["vilage_numb"] +1): 
+		if int(int((len(database_user[str(call.message.chat.id)]["cashe"])/7))) >= (database_user[str(call.message.chat.id)]["vilage_numb"] +1): 
 			# эта страшная черуха сравнивает колво страниц с номером на которой ты уже находишь +1 
 			# если листов больше ,то перебросит на следущий , если листов меньше , то кинет на лист первый(0)
 			database_user[str(call.message.chat.id)]["vilage_numb"] = database_user[str(call.message.chat.id)]["vilage_numb"] +1
 			 
-			a=area_list(database_user[str(call.message.chat.id)]["cashe"],0)
+			a=area_list(database_user[str(call.message.chat.id)]["cashe"],database_user[str(call.message.chat.id)]["vilage_numb"])
 			button_gen(database_user,bot , call , vilage_next_text ,a , "vilage" , "vilage")
 
 		else:
@@ -159,10 +159,10 @@ def vilage_next(bot, call ,database_user ):
 			# если листов больше ,то перебросит на следущий , если листов меньше , то кинет на лист первый(0)
 			database_user[str(call.message.chat.id)]["vilage_numb"] = database_user[str(call.message.chat.id)]["vilage_numb"] -1
 			 
-			a=area_list(database_user[str(call.message.chat.id)]["cashe"],0)
+			a=area_list(database_user[str(call.message.chat.id)]["cashe"],database_user[str(call.message.chat.id)]["vilage_numb"])
 			button_gen(database_user,bot , call , vilage_next_text ,a , "vilage" , "vilage")
 		else:
-			database_user[str(call.message.chat.id)]["vilage_numb"] = int((len(database_user[str(call.message.chat.id)]["cashe"])/4))
+			database_user[str(call.message.chat.id)]["vilage_numb"] = int((len(database_user[str(call.message.chat.id)]["cashe"])/7))
 			a=area_list(database_user[str(call.message.chat.id)]["cashe"],0)
 			button_gen(database_user,bot , call , vilage_next_text ,a , "vilage" , "vilage")
 

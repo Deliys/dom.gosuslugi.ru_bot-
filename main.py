@@ -16,7 +16,7 @@ from pypo.data_list import home_list_all
 
 #-------------------------------------
 #вынос лишних функция далее/назад в отдельные файлы 
-import pypo.find_closet_match as find_far_name
+
 import pypo.getdata as gd #импорт функция из файла getdata в pypo 
 import pypo.change_write as cw 
 import pypo.change_next as cn 
@@ -91,61 +91,6 @@ while True:
 
 
 
-
-			else:
-				if (("regions" in database_user[str(message.chat.id)]) and\
-					("street" in database_user[str(message.chat.id)]) and\
-					("citi" in database_user[str(message.chat.id)])
-					):
-					
-					#------выбор дом-------
-					markup=types.InlineKeyboardMarkup()
-					a = find_far_name.find_closet_match_name(str(message.text), home_list_all(database_user[str(message.chat.id)]["cashe"]))
-					for i in a:
-						item1=types.InlineKeyboardButton(i[0],callback_data=("data " + i[1]))
-						markup.add(item1)
-					item2=types.InlineKeyboardButton('❌',callback_data=("delete"))
-					markup.add(item_start ,item2)
-					bot.send_message(message.chat.id,'Выбор улицу . по вашему запросу мы нашли 3 наиболее подходящих варианта',reply_markup=markup)
-				elif (("regions" in database_user[str(message.chat.id)]) and\
-					("citi" in database_user[str(message.chat.id)])
-					):
-				
-					#------выбор улицу-------
-					markup=types.InlineKeyboardMarkup()
-					a = find_far_name.find_closet_match_name(str(message.text), street_list_all(database_user[str(message.chat.id)]["cashe"]))
-					for i in a:
-						item1=types.InlineKeyboardButton(i[0],callback_data=("streetCode " + i[1]))
-						markup.add(item1)
-					item2=types.InlineKeyboardButton('❌',callback_data=("delete"))
-					markup.add(item_start ,item2)
-					bot.send_message(message.chat.id,'Выбор улицу . по вашему запросу мы нашли 3 наиболее подходящих варианта',reply_markup=markup)
-
-
-				elif ("regions" in database_user[str(message.chat.id)]):
-					
-					#------выбор города-------
-					markup=types.InlineKeyboardMarkup()
-					a = find_far_name.find_closet_match_name(str(message.text), citi_list_all(database_user[str(message.chat.id)]["cashe"]))
-					for i in a:
-						item1=types.InlineKeyboardButton(i[0],callback_data=("citiCode " + i[1]))
-						markup.add(item1)
-					item2=types.InlineKeyboardButton('❌',callback_data=("delete"))
-					markup.add(item_start ,item2)
-					bot.send_message(message.chat.id,'Выбор города . по вашему запросу мы нашли 3 наиболее подходящих варианта',reply_markup=markup)
-
-				else:
-					#------выбор региона-------
-					markup=types.InlineKeyboardMarkup()
-					a = find_far_name.find_closet_match_name(str(message.text), regions_list_all(regions))
-					for i in a:
-						item1=types.InlineKeyboardButton(i[0],callback_data=("regionCode " + i[1]))
-						markup.add(item1)
-					item2=types.InlineKeyboardButton('❌',callback_data=("delete"))
-					markup.add(item_start ,item2)
-					bot.send_message(message.chat.id,'Выбор региона . по вашему запросу мы нашли 3 наиболее подходящих варианта',reply_markup=markup)
-
-
 		# Запускаем бота
 
 
@@ -194,7 +139,7 @@ while True:
 
 
 				if call.data == "settlement +": 
-					if int(int((len(database_user[str(call.message.chat.id)]["cashe"])/4))) > (database_user[str(call.message.chat.id)]["settlement_numb"] +1): 
+					if int(int((len(database_user[str(call.message.chat.id)]["cashe"])/7))) >= (database_user[str(call.message.chat.id)]["settlement_numb"] +1): 
 						# эта страшная черуха сравнивает колво страниц с номером на которой ты уже находишь +1 
 						# если листов больше ,то перебросит на следущий , если листов меньше , то кинет на лист первый(0)
 						database_user[str(call.message.chat.id)]["settlement_numb"] = database_user[str(call.message.chat.id)]["settlement_numb"] +1
@@ -207,7 +152,7 @@ while True:
 
 						item1=types.InlineKeyboardButton("назад",callback_data='settlement -')
 						item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["settlement_numb"])\
-							+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
+							+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
 						item2=types.InlineKeyboardButton("далее",callback_data='settlement +')
 
 						markup.add(item1,item3,item2)
@@ -233,7 +178,7 @@ while True:
 
 						item1=types.InlineKeyboardButton("назад",callback_data='settlement -')
 						item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["settlement_numb"])\
-							+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
+							+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
 						item2=types.InlineKeyboardButton("далее",callback_data='settlement +')
 						markup.add(item1,item3,item2)
 						markup.add(item_start)
@@ -257,7 +202,7 @@ while True:
 
 						item1=types.InlineKeyboardButton("назад",callback_data='settlement -')
 						item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["settlement_numb"])\
-							+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
+							+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
 						item2=types.InlineKeyboardButton("далее",callback_data='settlement +')
 
 						markup.add(item1,item3,item2)
@@ -273,11 +218,11 @@ while True:
 					else:
 
 						
-						database_user[str(call.message.chat.id)]["settlement_numb"] = int((len(database_user[str(call.message.chat.id)]["cashe"])/4))
+						database_user[str(call.message.chat.id)]["settlement_numb"] = int((len(database_user[str(call.message.chat.id)]["cashe"])/7))
 						markup=types.InlineKeyboardMarkup()
 
 
-						a=area_list(database_user[str(call.message.chat.id)]["cashe"],int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))
+						a=area_list(database_user[str(call.message.chat.id)]["cashe"],int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))
 						for i in a:
 							item1=types.InlineKeyboardButton(i[0],callback_data=("settlementCode " + i[1]))
 							markup.add(item1)
@@ -286,7 +231,7 @@ while True:
 
 						item1=types.InlineKeyboardButton("назад",callback_data='settlement -')
 						item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)]["settlement_numb"])\
-							+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/4)))+"]",callback_data='chet')
+							+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
 						item2=types.InlineKeyboardButton("далее",callback_data='settlement +')
 						markup.add(item1,item3,item2)
 						markup.add(item_start)
