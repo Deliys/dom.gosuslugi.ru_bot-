@@ -31,7 +31,7 @@ def regions_next(bot, call ,database_user ,regions):
 			markup.add(item_start)
 			
 			bot.delete_message(str(call.message.chat.id), call.message.id)
-			bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)
+			bot.send_message(str(call.message.chat.id),'Выберите регион',reply_markup=markup)
 
 			
 		else:
@@ -49,7 +49,7 @@ def regions_next(bot, call ,database_user ,regions):
 			markup.add(item1,item3,item2)
 			markup.add(item_start)
 			bot.delete_message(str(call.message.chat.id), call.message.id)
-			bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)	
+			bot.send_message(str(call.message.chat.id),'Выберите регион',reply_markup=markup)	
 	if call.data == "regions +": 
 		if int(int((len(regions)/8))) >= (database_user[str(call.message.chat.id)]["regions_numb"] +1): 
 			# эта страшная черуха сравнивает колво страниц с номером на которой ты уже находишь +1 
@@ -74,7 +74,7 @@ def regions_next(bot, call ,database_user ,regions):
 
 
 			bot.delete_message(str(call.message.chat.id), call.message.id)
-			bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)
+			bot.send_message(str(call.message.chat.id),'Выберите регион',reply_markup=markup)
 
 			
 		else:
@@ -95,7 +95,7 @@ def regions_next(bot, call ,database_user ,regions):
 			markup.add(item1,item3,item2)
 			markup.add(item_start)
 			bot.delete_message(str(call.message.chat.id), call.message.id)
-			bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)		
+			bot.send_message(str(call.message.chat.id),'Выберите регион',reply_markup=markup)		
 
 
 def area_next(bot, call ,database_user ):

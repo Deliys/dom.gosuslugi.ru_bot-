@@ -387,7 +387,7 @@ while True:
 
 
 						bot.delete_message(str(call.message.chat.id), call.message.id)
-						bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)
+						bot.send_message(str(call.message.chat.id),'Выберите улицу',reply_markup=markup)
 
 						
 					else:
@@ -407,7 +407,7 @@ while True:
 						markup.add(item1,item3,item2)
 						markup.add(item_start)
 						bot.delete_message(str(call.message.chat.id), call.message.id)
-						bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)	
+						bot.send_message(str(call.message.chat.id),'Выберите улицу',reply_markup=markup)	
 				if call.data == "street +": 
 					if int(int((len(database_user[str(call.message.chat.id)]["cashe"])/20))) >= (database_user[str(call.message.chat.id)]["street_numb"] +1): 
 						# эта страшная черуха сравнивает колво страниц с номером на которой ты уже находишь +1 
@@ -430,7 +430,7 @@ while True:
 						
 
 						bot.delete_message(str(call.message.chat.id), call.message.id)
-						bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)
+						bot.send_message(str(call.message.chat.id),'Выберите улицу',reply_markup=markup)
 
 						
 					else:
@@ -450,7 +450,7 @@ while True:
 						markup.add(item1,item3,item2)
 						markup.add(item_start)
 						bot.delete_message(str(call.message.chat.id), call.message.id)
-						bot.send_message(str(call.message.chat.id),'выберите субъект из списка с помощью кнопок или напиши самостоятельно',reply_markup=markup)	
+						bot.send_message(str(call.message.chat.id),'Выберите улицу',reply_markup=markup)	
 
 
 

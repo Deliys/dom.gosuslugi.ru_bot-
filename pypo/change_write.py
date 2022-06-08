@@ -1,7 +1,7 @@
 import json
 from telebot import types
 from pypo.data_list import regions_list, vilage_list , citi_list, area_list ,street_list ,home_list
-from pypo.text import areaCode_func_text , vilageCode_func_text ,settlementCode_func_text ,citiCode_func_text ,streetCode_func
+from pypo.text import areaCode_func_text , vilageCode_func_text ,settlementCode_func_text ,citiCode_func_text ,streetCode_func , streetCode_func_text
 import pypo.getdata as gd #импорт функция из файла getdata в pypo
 
 item_start =types.InlineKeyboardButton("в начало",callback_data='start_t')
@@ -20,7 +20,7 @@ def get_adres_text(call , database_user):
 
 
 #генератор кнопок - button_gen
-def button_gen(database_user,bot , call , text_msg ,a ,main_bt ,second_bt):
+def button_gen(database_user,bot , call , text_msg ,a ,main_bt ,second_bt ):
 	
 	get_adres_text(call,database_user)
 
@@ -125,7 +125,7 @@ def settlementCode_func(bot, call,database_user):
 	print("--------------------------------------------")
 	a=home_list(database_user[str(call.message.chat.id)]["cashe"],0)
 	#button_gen(database_user,bot , call , settlementCode_func_text ,a , "settlement_v" , "streetCode")
-	button_gen_long_v(database_user,bot , call , streetCode_func ,a , "settlement_v" , "streetCode")
+	button_gen_long_v(database_user,bot , call , streetCode_func_text ,a , "settlement_v" , "streetCode")
 
 
 def citiCode_func(bot, call,database_user):
@@ -153,4 +153,4 @@ def streetCode_func(bot, call,database_user):
 	a=home_list(database_user[str(call.message.chat.id)]["cashe"],0)
 	print(a)
 	#button_gen(database_user,bot , call , citiCode_func_text ,a , "street" , "data")
-	button_gen_long(database_user,bot , call , streetCode_func ,a , "home" , "home")
+	button_gen_long(database_user,bot , call , streetCode_func_text,a , "home" , "home")
