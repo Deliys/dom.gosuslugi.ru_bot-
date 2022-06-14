@@ -20,7 +20,7 @@ def get_adres_text(call , database_user):
 
 
 #генератор кнопок - button_gen
-def button_gen(database_user,bot , call , text_msg ,a ,main_bt ,second_bt ):
+def button_gen(database_user,bot , call , text_msg ,a ,main_bt ,second_bt , len_bt = 7 ):
 	
 	get_adres_text(call,database_user)
 
@@ -33,7 +33,7 @@ def button_gen(database_user,bot , call , text_msg ,a ,main_bt ,second_bt ):
 
 	item1=types.InlineKeyboardButton("назад",callback_data=main_bt+' -')
 	item3=types.InlineKeyboardButton("["+str(database_user[str(call.message.chat.id)][second_bt+"_numb"])\
-		+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))+"]",callback_data='chet')
+		+"/"+str(int((len(database_user[str(call.message.chat.id)]["cashe"])/len_bt)))+"]",callback_data='chet')
 	item2=types.InlineKeyboardButton("далее",callback_data=main_bt+' +')
 	markup.add(item1,item3,item2)
 	markup.add(item_start)
@@ -139,7 +139,7 @@ def citiCode_func(bot, call,database_user):
 		)
 
 	a=street_list(database_user[str(call.message.chat.id)]["cashe"],0)
-	button_gen(database_user,bot , call , citiCode_func_text ,a , "street" , "street")
+	button_gen(database_user,bot , call , citiCode_func_text ,a , "street" , "street" ,len_bt=20)
 	
 def streetCode_func(bot, call,database_user):
 	database_user[str(call.message.chat.id)]["home_numb"] = 0

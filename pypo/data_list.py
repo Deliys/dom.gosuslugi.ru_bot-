@@ -11,7 +11,7 @@ def regions_list(list,numb):
 	c = []#подсписок
 	for i in list:
 
-		if b<8:
+		if b<7:
 			c.append([i["offName"] +' '+ i["shortName"], i["aoGuid"]])
 			b=b+1
 		
@@ -107,7 +107,7 @@ def area_list(list,numb):
 	if len(c)!=0:#защита от того что последняя страница окажется не полной
 		a.append(c)
 
-	#print(numb)
+	print(len(a))
 
 	return(a[numb])
 def area_list_all(list):
@@ -125,7 +125,7 @@ def street_list(list,numb):
 	c = []#подсписок
 	for i in list:
 
-		if b<21:
+		if b<19:
 			c.append([i["formalName"] , i["aoGuid"]])
 			b=b+1
 		

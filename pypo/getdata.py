@@ -130,7 +130,7 @@ def get_compuni(regionCode,cityCode,streetCode,homeCode):
 	if json.loads(loging.text)["organizationSummaryWithNsiList"] == 0:
 		return "нет компаний"
 	else:
-		text = 'спискок организаций:'
+		text = 'Список организаций:'
 		g = 0
 		for i in json.loads(loging.text)["organizationSummaryWithNsiList"]:
 			g = g +1
