@@ -23,16 +23,11 @@ def regions_list(list,numb):
 	if len(c)!=0:#защита от того что последняя страница окажется не полной
 		a.append(c)
 
-	print(numb)
 	if numb == 0 :
 		a[numb].insert(0,['Хакасия Республика', '8d3f1d35-f0f4-41b5-b5b7-e7cadf3e7bd7'])
 
 	return(a[numb])
-def regions_list_all(list):
-	a = []
-	for i in list:	
-		a.append([i["offName"] +' '+ i["shortName"], i["aoGuid"]])
-	return(a)
+
 
 def vilage_list(list,numb):
 	#возращает 4 элемента из списка регионов 
@@ -54,11 +49,7 @@ def vilage_list(list,numb):
 	if len(c)!=0:#защита от того что последняя страница окажется не полной
 		a.append(c)
 	return(a[numb])
-def vilage_list_all(list):
-	a = []
-	for i in list:	
-		a.append([i["formalName"] , i["aoGuid"]])
-	return(a)
+
 
 def citi_list(list,numb):
 	#возращает 4 элемента из списка регионов 
@@ -80,15 +71,10 @@ def citi_list(list,numb):
 	if len(c)!=0:#защита от того что последняя страница окажется не полной
 		a.append(c)
 	return(a[numb])
-def citi_list_all(list):
-	a = []
-	for i in list:	
-		a.append([i["formalName"] , i["aoGuid"]])
-	return(a)
 
 def area_list(list,numb):
 	#возращает 4 элемента из списка регионов 
-	#print(list)
+
 	a = []
 
 	b = 0#счетчик для обрезки по 4
@@ -106,9 +92,6 @@ def area_list(list,numb):
 			b = 1
 	if len(c)!=0:#защита от того что последняя страница окажется не полной
 		a.append(c)
-
-	print(len(a))
-
 	return(a[numb])
 def area_list_all(list):
 	a = []
@@ -136,16 +119,7 @@ def street_list(list,numb):
 			b = 1
 	if len(c)!=0:#защита от того что последняя страница окажется не полной
 		a.append(c)
-
-	#print(numb)
-
-
 	return(a[numb])
-def street_list_all(list):
-	a = []
-	for i in list:	
-		a.append([i["formalName"] , i["aoGuid"]])
-	return(a)
 
 
 def home_list(list,numb):
@@ -170,14 +144,11 @@ def home_list(list,numb):
 
 	if len(c)!=0:#защита от того что последняя страница окажется не полной
 		a.append(c)
-
-
-	#print(numb)
-
-
 	return(a[numb])
-def home_list_all(list):
-	a = []
-	for i in list:	
-		a.append([i["formattedAddress"].split(",")[-1] , i["houseGuid"]])
-	return(a)
+def chet(n ,a = 7):
+	if (n/a)>(n//a):
+		#print(n , a ,(n//a) )
+		return (n//a)
+	else:
+		#print(n , a ,((n//a)-1) )
+		return ((n//a)-1)

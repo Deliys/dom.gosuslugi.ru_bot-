@@ -62,9 +62,6 @@ def get_vilage(regionCode,areaCode):
 
 
 def get_vilage_streat(regionCode,areaCode,settlementCode):
-	print(regionCode)
-	print(areaCode)
-	print(settlementCode)
 	url = start_url+'/streets?actual=true&areaCode='+areaCode+'&itemsPerPage=100&page=1&regionCode='+regionCode+'&searchString=&settlementCode='+settlementCode
 
 	s = requests.Session()
@@ -75,9 +72,6 @@ def get_vilage_streat(regionCode,areaCode,settlementCode):
 
 
 def get_vilage_streat_home(regionCode,areaCode,settlementCode,streetCode):
-	print(regionCode)
-	print(areaCode)
-	print(settlementCode)
 	url = start_url+'/numbers?actual=true&areaCode='+areaCode+'&itemsPerPage=100&page=1&regionCode='+regionCode+'&searchString=&settlementCode='+settlementCode+"&streetCode="+streetCode
 
 	s = requests.Session()

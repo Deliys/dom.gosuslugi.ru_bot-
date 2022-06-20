@@ -8,6 +8,7 @@ from pypo.change_write import item_start
 from pypo.change_write import button_gen
 from math import ceil
 
+from pypo.data_list import chet 	
 def regions_next(bot, call ,database_user ,regions):
 
 	if call.data == "regions -": 
@@ -94,15 +95,14 @@ def regions_next(bot, call ,database_user ,regions):
 
 
 def area_next(bot, call ,database_user ):
-	print(11111)
-	
 	if call.data== "area":
 		database_user[str(call.message.chat.id)]["cashe"] =  gd.get_area(database_user[str(call.message.chat.id)]["regions"])
 		database_user[str(call.message.chat.id)]["area_numb"] = 0
 		a=area_list(database_user[str(call.message.chat.id)]["cashe"],0)
 		button_gen(database_user,bot , call , area_next_text ,a , "area" , "area")
 	if call.data == "area +": 
-		if int(int((len(database_user[str(call.message.chat.id)]["cashe"])/8))) >= (database_user[str(call.message.chat.id)]["area_numb"] ): 
+
+		if chet( len(database_user[str(call.message.chat.id)]["cashe"]),7) >= (database_user[str(call.message.chat.id)]["area_numb"]+1 ): 
 			# эта страшная черуха сравнивает колво страниц с номером на которой ты уже находишь +1 
 			# если листов больше ,то перебросит на следущий , если листов меньше , то кинет на лист первый(0)
 			database_user[str(call.message.chat.id)]["area_numb"] = database_user[str(call.message.chat.id)]["area_numb"] +1
@@ -122,13 +122,11 @@ def area_next(bot, call ,database_user ):
 			a=area_list(database_user[str(call.message.chat.id)]["cashe"],database_user[str(call.message.chat.id)]["area_numb"])
 			button_gen(database_user,bot , call , area_next_text ,a , "area" , "area")
 		else:
-			database_user[str(call.message.chat.id)]["area_numb"] = ceil((len(database_user[str(call.message.chat.id)]["cashe"])/8))
-			markup=types.InlineKeyboardMarkup()
-			a=area_list(database_user[str(call.message.chat.id)]["cashe"],ceil((len(database_user[str(call.message.chat.id)]["cashe"])/8)))
+			database_user[str(call.message.chat.id)]["area_numb"] = chet( len(database_user[str(call.message.chat.id)]["cashe"]),7)
+			a=area_list(database_user[str(call.message.chat.id)]["cashe"],chet( len(database_user[str(call.message.chat.id)]["cashe"]),7))
 			button_gen(database_user,bot , call , area_next_text ,a , "area" , "area")
 
 def vilage_next(bot, call ,database_user ):
-	print(22222)
 	if call.data== "vilage":
 		database_user[str(call.message.chat.id)]["cashe"] =  gd.get_vilages(database_user[str(call.message.chat.id)]["regions"])
 		database_user[str(call.message.chat.id)]["vilage_numb"] = 0
@@ -137,7 +135,10 @@ def vilage_next(bot, call ,database_user ):
 		button_gen(database_user,bot , call , vilage_next_text ,a , "vilage" , "vilage")
 
 	if call.data == "vilage +": 
-		if int(int((len(database_user[str(call.message.chat.id)]["cashe"])/7))) >= (database_user[str(call.message.chat.id)]["vilage_numb"] +1): 
+		#print(len(database_user[str(call.message.chat.id)]["cashe"]) , len(database_user[str(call.message.chat.id)]["cashe"])%1)
+		
+
+		if chet( len(database_user[str(call.message.chat.id)]["cashe"]),7) >= (database_user[str(call.message.chat.id)]["vilage_numb"] +1): 
 			# эта страшная черуха сравнивает колво страниц с номером на которой ты уже находишь +1 
 			# если листов больше ,то перебросит на следущий , если листов меньше , то кинет на лист первый(0)
 			database_user[str(call.message.chat.id)]["vilage_numb"] = database_user[str(call.message.chat.id)]["vilage_numb"] +1
@@ -152,15 +153,12 @@ def vilage_next(bot, call ,database_user ):
 			button_gen(database_user,bot , call , vilage_next_text ,a , "vilage" , "vilage")
 	if call.data == "vilage -": 
 		if 0<= (database_user[str(call.message.chat.id)]["vilage_numb"] -1): 
-			# эта страшная черуха сравнивает колво страниц с номером на которой ты уже находишь +1 
-			# если листов больше ,то перебросит на следущий , если листов меньше , то кинет на лист первый(0)
-			database_user[str(call.message.chat.id)]["vilage_numb"] = database_user[str(call.message.chat.id)]["vilage_numb"] -1
-			 
+			database_user[str(call.message.chat.id)]["vilage_numb"] = database_user[str(call.message.chat.id)]["vilage_numb"] -1 
 			a=area_list(database_user[str(call.message.chat.id)]["cashe"],database_user[str(call.message.chat.id)]["vilage_numb"])
 			button_gen(database_user,bot , call , vilage_next_text ,a , "vilage" , "vilage")
 		else:
-			database_user[str(call.message.chat.id)]["vilage_numb"] = int((len(database_user[str(call.message.chat.id)]["cashe"])/7))
-			a=area_list(database_user[str(call.message.chat.id)]["cashe"],0)
+			database_user[str(call.message.chat.id)]["vilage_numb"] = chet(len(database_user[str(call.message.chat.id)]["cashe"]),7)
+			a=area_list(database_user[str(call.message.chat.id)]["cashe"],database_user[str(call.message.chat.id)]["vilage_numb"])
 			button_gen(database_user,bot , call , vilage_next_text ,a , "vilage" , "vilage")
 
 
@@ -171,7 +169,7 @@ def citi_next(bot, call ,database_user ):
 		a=area_list(database_user[str(call.message.chat.id)]["cashe"],0)
 		button_gen(database_user,bot , call , citi_next_text ,a , "citi" , "citi")
 	if call.data == "citi +": 
-		if int(int((len(database_user[str(call.message.chat.id)]["cashe"])/7))) > (database_user[str(call.message.chat.id)]["citi_numb"]): 
+		if chet( len(database_user[str(call.message.chat.id)]["cashe"]),7) > (database_user[str(call.message.chat.id)]["citi_numb"]): 
 			# эта страшная черуха сравнивает колво страниц с номером на которой ты уже находишь +1 
 			# если листов больше ,то перебросит на следущий , если листов меньше , то кинет на лист первый(0)
 			database_user[str(call.message.chat.id)]["citi_numb"] = database_user[str(call.message.chat.id)]["citi_numb"] +1
@@ -190,6 +188,6 @@ def citi_next(bot, call ,database_user ):
 			a=area_list(database_user[str(call.message.chat.id)]["cashe"],database_user[str(call.message.chat.id)]["citi_numb"])
 			button_gen(database_user,bot , call , citi_next_text ,a , "citi" , "citi")
 		else:
-			database_user[str(call.message.chat.id)]["citi_numb"] = int((len(database_user[str(call.message.chat.id)]["cashe"])/7))
-			a=area_list(database_user[str(call.message.chat.id)]["cashe"],int((len(database_user[str(call.message.chat.id)]["cashe"])/7)))
+			database_user[str(call.message.chat.id)]["citi_numb"] = chet( len(database_user[str(call.message.chat.id)]["cashe"]),7)
+			a=area_list(database_user[str(call.message.chat.id)]["cashe"],chet( len(database_user[str(call.message.chat.id)]["cashe"]),7))
 			button_gen(database_user,bot , call , citi_next_text ,a , "citi" , "citi")
